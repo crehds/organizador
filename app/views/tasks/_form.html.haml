@@ -1,4 +1,5 @@
--# frozen_string_literal: true
+-# frozen_string_literal: true #-
+
 = simple_form_for(@task) do |f|
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
@@ -8,6 +9,11 @@
     = f.input :description
     = f.input :due_date
     = f.association :category
+
+    = link_to_add_nested f, :participating_users, '#participants', partial: 'participating_user_fields', link_text: "Agregar"
+    #participants
+      = f.simple_fields_for :participating_users do |g|
+        = render "participating_user_fields", form: g
 
   .form-actions
     = f.button :submit
