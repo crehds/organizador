@@ -13,6 +13,12 @@
   %b Category:
   = @task.category
 
-= link_to 'Edit', edit_task_path(@task)
+.notes-container
+  #notes
+    - @task.notes.each do |note|
+      = render "tasks/notes/note", note:
+  = simple_form_for Note.new, url: task_notes_path(task_id: @task.id), html: { data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" }}, remote: true do |f|
+    = f.input :body, label: false, as: :string, placeholder: "Digite su nota", input_html: { autocomplete: :off }
+= link_to "Edit", edit_task_path(@task)
 \|
-= link_to 'Back', tasks_path
+= link_to "Back", tasks_path
