@@ -9,5 +9,8 @@
     = stylesheet_link_tag "application", "data-turbo-track": "reload", defer: true
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
   %body
-    = link_to 'cerrar sesión', destroy_user_session_path, method: :delete
+    = render "layouts/navbar"
+    .container.mt-4.pb-4
+      .main-flash-messages
+        = render "layouts/messages"
     = yield
