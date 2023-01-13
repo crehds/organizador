@@ -7,7 +7,7 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 %w[juan andrea leon andres natalia camilo rusbel johan].each do |name|
-  User.create email: "#{name}@platzi.com", password: "123456"
+  User.create email: "#{name}@tasker.com", password: "123456"
 end
 
 puts "Users has been created"
@@ -18,7 +18,7 @@ end
 
 puts "Categories has been created"
 
-owner = User.find_by(email: "johan@platzi.com")
+owner = User.find_by(email: "johan@tasker.com")
 
 [
 
@@ -78,7 +78,7 @@ owner = User.find_by(email: "johan@platzi.com")
 
   ["conceptualización", "Desplegando a Heroku", ["juan:1", "leon:2", "andrea:random"]],
 
-  ["conceptualización", "Conclusiones del curso", ["juan:1", "leon:2", "andrea:random"]]
+  ["conceptualización", "Conclusiones", ["juan:1", "leon:2", "andrea:random"]]
 
 ].each do |category, description, participant_set|
   participants = participant_set.map do |participant|
@@ -87,7 +87,7 @@ owner = User.find_by(email: "johan@platzi.com")
     role = raw_role == "random" ? [1, 2].sample : raw_role
 
     Participant.new(
-      user: User.find_by(email: "#{user_name}@platzi.com"),
+      user: User.find_by(email: "#{user_name}@tasker.com"),
 
       role: role.to_i
     )
