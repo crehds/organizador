@@ -1,0 +1,10 @@
+%h2 Sign In
+= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { data: { turbo: false }, class: "d-flex w-50 flex-column" }) do |f|
+  .form-inputs
+    = f.input :email, required: true, autofocus: true, input_html: { autocomplete: "email" }, class: "form-control"
+    = f.input :password, required: true, input_html: { autocomplete: "current-password" }, class: "form-control"
+    = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
+  .form-actions.align-self-center
+    = f.button :submit, "Log in", class: "btn btn-outline-primary"
+    = render "devise/shared/links"
+    = link_to 'Random Account', new_user_session_path, class: "btn btn-info",data: { turbo: true, turbo_frame: "modal" }
