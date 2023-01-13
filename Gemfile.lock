@@ -78,6 +78,8 @@ GEM
     cancancan (3.4.0)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
+    cssbundling-rails (1.1.1)
+      railties (>= 6.0.0)
     date (3.3.1)
     debug (1.7.0)
       irb (>= 1.5.0)
@@ -106,13 +108,15 @@ GEM
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
     io-console (0.5.11)
-    irb (1.6.0)
+    irb (1.6.1)
       reline (>= 0.3.0)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    jsbundling-rails (1.0.3)
+      railties (>= 6.0.0)
     json (2.6.3)
-    loofah (2.19.0)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.8.0)
@@ -165,8 +169,8 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.4.3)
-      loofah (~> 2.3)
+    rails-html-sanitizer (1.4.4)
+      loofah (~> 2.19, >= 2.19.1)
     rails-i18n (7.0.6)
       i18n (>= 0.7, < 2)
       railties (>= 6.0.0, < 8)
@@ -246,12 +250,14 @@ DEPENDENCIES
   annotate
   bootsnap
   cancancan
+  cssbundling-rails
   debug
   devise
   hamlit
   hamlit-rails
   importmap-rails
   jbuilder
+  jsbundling-rails
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.3, >= 7.0.3.1)
