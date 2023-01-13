@@ -8,7 +8,6 @@
           .task-container
             .task-info
               .task-title
-                %span.small= `[##{task.code}]`
                 = task.name
                 %span.task-category
                   = task.category.name
@@ -18,7 +17,7 @@
                 = "creado el #{l task.created_at, format: :long} / vence el #{task.due_date}"
             .task-interactions
               .task-participants
-                - task.participating_users.includes(:user).each do |participant|
+                - task.participating_users.each do |participant|
                   .task-participant{ class: "task-participant--#{participant.role}" }
                     = image_tag "https://robohash.org/#{participant.user.email}?size=60x60", title: participant.user.email
               .task-actions
