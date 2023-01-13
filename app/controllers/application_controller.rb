@@ -1,15 +1,11 @@
 class ApplicationController < ActionController::Base
-  before_action :set_locale
+  include Language
 
   before_action :authenticate_user!
   before_action :turbo_frame_request_variant
 
   rescue_from CanCan::AccessDenied do |_exception|
     redirect_to root_path
-  end
-
-  def set_locale
-    I18n.locale = "es"
   end
 
   def turbo_frame_request_variant
