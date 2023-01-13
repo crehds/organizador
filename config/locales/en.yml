@@ -16,6 +16,15 @@ en:
     destroy: Destroy
     edit: Edit
     show: Show
+  errors:
+    messages:
+      not_saved: Not saved
+  frecuentes:
+    are_you_sure: Estás seguro
+    back: Back
+    destroy: Delete
+    edit: Edit
+    show: Show
   hello: Hello world
   task:
     errors:
