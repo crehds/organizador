@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
 
   before_action :authenticate_user!
+  before_action :turbo_frame_request_variant
 
   rescue_from CanCan::AccessDenied do |_exception|
     redirect_to root_path
@@ -9,6 +10,10 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     I18n.locale = "es"
+  end
+
+  def turbo_frame_request_variant
+    request.variant = :turbo_frame if turbo_frame_request?
   end
 
   rescue_from ActiveRecord::RecordNotUnique do |_exception|

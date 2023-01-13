@@ -7,10 +7,12 @@
     = csp_meta_tag
     = javascript_include_tag "application", "data-turbolinks-track": "reload"
     = stylesheet_link_tag "application", media: "all", "data-turbolinks-track": "reload"
-  %body
+  %body.mt-5
     .container
       .main-flash-messages
         = render "layouts/messages"
     .fullscreen
-      .container
+      .d-flex.flex-column.align-items-center
         = yield
+    .container
+      = turbo_frame_tag "modal"
