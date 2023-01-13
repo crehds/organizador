@@ -40,12 +40,11 @@
       .card
         .card-body
           - if @task.notes.exists?
-            .notes
+            .notes#notes
               - @task.notes.order(created_at: :asc).each do |note|
-                .note-element
-                  = render "tasks/notes/note", note: note
+                = render "tasks/notes/note", note: note
           - else
             .notes
           - if can? :add_notes, @task
-            = simple_form_for Note.new, url: task_notes_path(task_id: @task.id), remote: true do |f|
+            = simple_form_for Note.new, url: task_notes_path(task_id: @task.id), html: { data: { controller: 'reset-form', action: "turbo:submit-end->reset-form#reset" } }, remote: true do |f|
               = f.input :body, label: false, placeholder: "Escriba una nota", as: :string, input_html: { autocomplete: :off }
