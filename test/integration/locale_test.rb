@@ -19,4 +19,12 @@ class LocaleTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_includes response.body, I18n.l(@task.created_at, format: :long, locale: :en)
   end
+
+  test "odd or unknown browser languages still render the page" do
+    ["", "*", "EN-US", "fr-FR", "zh-Hant-TW", "zz", "x-klingon"].each do |value|
+      get tasks_path, headers: { "Accept-Language" => value }
+
+      assert_response :success, "Accept-Language #{value.inspect}"
+    end
+  end
 end
