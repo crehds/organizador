@@ -4,6 +4,16 @@ require "test_helper"
 class AccountsTest < ActionDispatch::IntegrationTest
   NEW_PASSWORD = { password: "nueva-clave", password_confirmation: "nueva-clave" }.freeze
 
+  # Changing a password only exists in a private installation; demo mode locks every account.
+  setup do
+    @previous_demo_mode = Rails.configuration.x.demo_mode
+    Rails.configuration.x.demo_mode = false
+  end
+
+  teardown do
+    Rails.configuration.x.demo_mode = @previous_demo_mode
+  end
+
   test "there is no sign-up, account cancellation or password reset route" do
     helpers = Rails.application.routes.url_helpers
 

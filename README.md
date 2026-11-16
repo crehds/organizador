@@ -41,7 +41,7 @@ No page offers sign-up, in either mode.
 
 ### The account page
 
-Signed-in users change their password at `/users/edit`, confirming it with the current one. That is all the page does: email changes are ignored, accounts cannot be cancelled, and there is no "forgot password", because production sends no mail. In demo mode the shared demo account cannot open it.
+Signed-in users change their password at `/users/edit`, confirming it with the current one. That is all the page does: email changes are ignored, accounts cannot be cancelled, and there is no "forgot password", because production sends no mail. In demo mode nobody can open it: every account comes from `db/seeds.rb` with a public password.
 
 ## Stack
 
@@ -83,7 +83,7 @@ Only in demo mode, both commands delete all data, visitor accounts included, and
 - `bin/rails demo:reset`
 - `POST /demo/reset` with the header `Authorization: Bearer <DEMO_RESET_TOKEN>`. When `DEMO_RESET_TOKEN` is not set, the route answers like any route that does not exist.
 
-The demo account (`johan@tasker.com`) cannot change its password, so `/test` keeps working.
+No account can change its password in demo mode, so `/test` and the seeded users keep working for every visitor.
 
 ## Deploy the demo on Railway
 

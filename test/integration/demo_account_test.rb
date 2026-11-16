@@ -2,7 +2,7 @@ require "test_helper"
 
 # /test signs every visitor in as johan, so johan's account must stay as the seeds made it.
 class DemoAccountTest < ActionDispatch::IntegrationTest
-  ALERT = "The demo account cannot be changed.".freeze
+  ALERT = "Demo accounts cannot be changed.".freeze
 
   test "the demo user cannot open the account page" do
     sign_in users(:johan)
@@ -44,11 +44,24 @@ class DemoAccountTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
   end
 
-  test "other users still open their account page" do
-    sign_in users(:outsider)
+  test "in demo mode every seeded account is locked, because their passwords are public" do
+    sign_in users(:juan)
 
-    get edit_user_registration_path
+    patch user_registration_path,
+          params: { user: { password: "abcdef", password_confirmation: "abcdef", current_password: "123456" } }
 
-    assert_response :success
+    assert_redirected_to root_path
+    assert_equal ALERT, flash[:alert]
+    assert users(:juan).reload.valid_password?("123456")
+  end
+
+  test "in a private installation users still open their account page" do
+    with_demo_mode(false) do
+      sign_in users(:outsider)
+
+      get edit_user_registration_path
+
+      assert_response :success
+    end
   end
 end
