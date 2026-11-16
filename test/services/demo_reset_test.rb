@@ -20,6 +20,18 @@ class DemoResetTest < ActiveSupport::TestCase
     assert User.exists?(email: "johan@tasker.com")
   end
 
+  test "outside demo mode it refuses before deleting anything" do
+    before = [User.count, Category.count, Task.count, Participant.count, Note.count]
+
+    with_demo_mode(false) do
+      error = assert_raises(DemoReset::Disabled) { DemoReset.call }
+      assert_match "DEMO_MODE", error.message
+    end
+
+    assert_equal before, [User.count, Category.count, Task.count, Participant.count, Note.count]
+    assert User.exists?(@visitor.id)
+  end
+
   test "a failing seed leaves the data as it was" do
     before = [User.count, Category.count, Task.count, Participant.count, Note.count]
 

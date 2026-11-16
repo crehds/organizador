@@ -6,6 +6,13 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
+# A private installation starts empty: the demo accounts below have a published password.
+# The line goes to the terminal that runs db:seed or db:prepare, like the other messages here.
+unless Rails.configuration.x.demo_mode
+  puts "Demo mode is off (DEMO_MODE is not \"true\"), so no demo data was loaded." # rubocop:disable Rails/Output
+  return
+end
+
 %w[juan andrea leon andres natalia camilo rusbel johan].each do |name|
   User.create email: "#{name}@tasker.com", password: "123456"
 end

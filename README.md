@@ -22,6 +22,8 @@ The same code runs the public demo and private installations with real data, eac
 | Landing page | "Probar el demo" and "Iniciar sesión" | "Iniciar sesión" only |
 | `/test` one-click demo login | Signs visitors in as the shared demo account | Answers like a route that does not exist |
 | Demo banner and demo account guard | Shown for `johan@tasker.com` | `johan@tasker.com`, if it exists, is an ordinary account |
+| `db:seed` and `db:prepare` | Load the demo data | Print one line and create nothing, so a new database stays empty |
+| Demo reset (`demo:reset`, `POST /demo/reset`) | Deletes everything and reloads the demo data | `demo:reset` aborts, the endpoint answers like a missing route, nothing is deleted |
 
 When `DEMO_MODE` is unset, it is off in production and on in development and test.
 
@@ -43,7 +45,7 @@ Requirements: Ruby 3.4.12, Node with Yarn, and PostgreSQL with its client header
 ```sh
 bundle install
 yarn install
-bin/rails db:prepare   # creates the databases and loads the demo data
+bin/rails db:prepare   # creates the databases and loads the demo data (DEMO_MODE defaults to true here)
 bin/dev                # Rails plus the CSS and JS watchers, on http://localhost:3000
 ```
 
@@ -59,7 +61,7 @@ Fixtures avoid foreign keys, so the database role does not need to be a PostgreS
 
 ## Demo reset
 
-Both commands delete all data, visitor accounts included, and reload `db/seeds.rb` in one transaction:
+Only in demo mode, both commands delete all data, visitor accounts included, and reload `db/seeds.rb` in one transaction:
 
 - `bin/rails demo:reset`
 - `POST /demo/reset` with the header `Authorization: Bearer <DEMO_RESET_TOKEN>`. When `DEMO_RESET_TOKEN` is not set, the route answers like any route that does not exist.

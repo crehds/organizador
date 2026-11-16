@@ -38,6 +38,23 @@ class DemoResetEndpointTest < ActionDispatch::IntegrationTest
     Rails.application.env_config["action_dispatch.show_detailed_exceptions"] = detailed
   end
 
+  test "outside demo mode the endpoint answers like a missing route, even with the right token" do
+    detailed = Rails.application.env_config["action_dispatch.show_detailed_exceptions"]
+    Rails.application.env_config["action_dispatch.show_detailed_exceptions"] = false
+
+    with_demo_mode(false) do
+      post "/demo/reset", headers: { "Authorization" => "Bearer #{TOKEN}" }
+      reset_answer = [response.status, response.body]
+      post "/no/such/route"
+
+      assert_equal [response.status, response.body], reset_answer
+      assert_equal 404, reset_answer.first
+    end
+    assert User.exists?(@visitor.id)
+  ensure
+    Rails.application.env_config["action_dispatch.show_detailed_exceptions"] = detailed
+  end
+
   test "other verbs and method overrides never reset" do
     auth = { "Authorization" => "Bearer #{TOKEN}" }
 
