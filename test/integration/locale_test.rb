@@ -27,4 +27,11 @@ class LocaleTest < ActionDispatch::IntegrationTest
       assert_response :success, "Accept-Language #{value.inspect}"
     end
   end
+
+  test "a very long Accept-Language header still picks the browser language" do
+    get tasks_path, headers: { "Accept-Language" => "es," * 10_000 }
+
+    assert_response :success
+    assert_includes response.body, I18n.l(@task.created_at, format: :long, locale: :es)
+  end
 end
