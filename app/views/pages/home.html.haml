@@ -1,0 +1,19 @@
+.landing-page.container.pb-5
+  .row
+    .col-lg-8
+      %h1.display-5 Organizador
+      %p.lead
+        Un organizador de tareas: cada tarea tiene una categoría, una fecha de vencimiento, un creador y participantes,
+        y admite notas que aparecen sin recargar la página.
+      %p
+        Nació como el proyecto de dos cursos de Platzi sobre Ruby on Rails (básico e intermedio).
+        Después se actualizó a Rails 8.1, se cubrió con tests y se desplegó en Railway.
+      .d-flex.flex-wrap.gap-2.mt-4
+        = link_to "Probar el demo", test_path, class: "btn btn-primary btn-lg"
+        = link_to "Iniciar sesión", new_user_session_path, class: "btn btn-outline-secondary btn-lg"
+        = link_to "Crear una cuenta", new_user_registration_path, class: "btn btn-outline-secondary btn-lg"
+      %p.small.text-muted.mt-2 El demo entra sin contraseña a una cuenta compartida.
+      %h2.h5.mt-5 Con qué está hecho
+      %ul.list-inline
+        - ["Ruby 3.4", "Rails 8.1", "PostgreSQL", "Hotwire", "Bootstrap 5", "Devise", "CanCanCan"].each do |tool|
+          %li.list-inline-item.badge.text-bg-light.border.fs-6.fw-normal= tool

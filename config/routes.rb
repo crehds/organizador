@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  root "tasks#index"
+  # Signed in users keep their task list at "/"; guests get the landing page there.
+  authenticated :user do
+    root "tasks#index", as: :authenticated_root
+  end
+  root "pages#home"
 end
