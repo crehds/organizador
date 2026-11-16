@@ -27,6 +27,16 @@ The same code runs the public demo and private installations with real data, eac
 
 When `DEMO_MODE` is unset, it is off in production and on in development and test.
 
+### Creating accounts
+
+Accounts are created from the terminal, in either mode:
+
+```sh
+bin/rails users:create EMAIL=someone@example.com
+```
+
+It prints the email and a random 16-character password once. It stops with a message and a non-zero exit when `EMAIL` is missing, invalid, or already taken.
+
 ## Stack
 
 Ruby 3.4.12 · Rails 8.1.4.1 · PostgreSQL · Hotwire (Turbo and Stimulus) · esbuild and Sass with Bootstrap 5 · Sprockets · HAML · Simple Form · Devise · CanCanCan · Minitest
