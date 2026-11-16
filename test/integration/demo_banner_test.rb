@@ -58,4 +58,38 @@ class DemoBannerTest < ActionDispatch::IntegrationTest
       assert_redirected_to root_path, "next=#{target.inspect}"
     end
   end
+
+  test "hostile and non-string next values fall back to the root" do
+    ["%2F%2Fevil.example", "/\\evil.example", "javascript:alert(1)", " sign_up", "SIGN_UP",
+     "sign_up\n", ["sign_up"], { "a" => "sign_up" }].each do |target|
+      sign_in users(:johan)
+      delete destroy_user_session_path, params: { next: target }
+
+      assert_redirected_to root_path, target.inspect
+    end
+  end
+
+  test "sign out forms carry a CSRF token and a tokenless sign out keeps the session" do
+    ActionController::Base.allow_forgery_protection = true
+    sign_in users(:johan)
+    get tasks_path
+
+    assert_select ".demo-banner form input[name=authenticity_token]", count: 2
+    assert_select "nav form input[name=authenticity_token]", count: 1
+
+    delete destroy_user_session_path, params: { next: "sign_up" }
+
+    assert_response :unprocessable_entity
+  ensure
+    ActionController::Base.allow_forgery_protection = false
+  end
+
+  test "Crear mi cuenta ends on the sign up form, signed out" do
+    sign_in users(:johan)
+    delete destroy_user_session_path, params: { next: "sign_up" }
+    follow_redirect!
+
+    assert_select "form[action=?]", user_registration_path
+    assert_select ".demo-banner", count: 0
+  end
 end

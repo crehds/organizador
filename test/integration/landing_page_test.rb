@@ -21,4 +21,15 @@ class LandingPageTest < ActionDispatch::IntegrationTest
     assert_select ".tasks.index-page"
     assert_includes response.body, task.name
   end
+
+  test "the landing page shows no user data and no signed-in chrome" do
+    task = create_task(name: "Secreto de juan")
+
+    get root_path
+
+    assert_not_includes response.body, task.name
+    User.pluck(:email).each { |email| assert_not_includes response.body, email }
+    assert_select "nav.navbar", count: 0
+    assert_select "form", count: 0
+  end
 end
