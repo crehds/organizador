@@ -55,4 +55,15 @@ class CategoriesTest < ActionDispatch::IntegrationTest
     assert_redirected_to categories_url
     assert flash[:alert].present?
   end
+
+  test "a JSON delete of a category with tasks answers 422" do
+    create_task
+
+    assert_no_difference -> { Category.count } do
+      delete category_path(categories(:desarrollo), format: :json)
+    end
+
+    assert_response :unprocessable_entity
+    assert response.parsed_body["base"].present?
+  end
 end
