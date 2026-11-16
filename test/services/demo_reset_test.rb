@@ -29,4 +29,25 @@ class DemoResetTest < ActiveSupport::TestCase
 
     assert_equal before, [User.count, Category.count, Task.count, Participant.count, Note.count]
   end
+
+  test "a failure in the middle of the seed file leaves every row as it was" do
+    rows = lambda do
+      [User.order(:id).pluck(:id, :email, :encrypted_password), Category.order(:id).pluck(:id, :name),
+       Task.order(:id).pluck(:id, :name), Note.order(:id).pluck(:id)]
+    end
+    before = rows.call
+    calls = 0
+    original = Task.method(:create!)
+    failing = lambda do |*args, **kwargs, &block|
+      calls += 1
+      raise "seed failed at task #{calls}" if calls == 10
+
+      original.call(*args, **kwargs, &block)
+    end
+
+    Task.stub(:create!, failing) { assert_raises(RuntimeError) { capture_io { DemoReset.call } } }
+
+    assert_equal before, rows.call
+    assert_not User.exists?(email: "andrea@tasker.com")
+  end
 end

@@ -33,6 +33,26 @@ class DemoAccountTest < ActionDispatch::IntegrationTest
     assert User.exists?(users(:johan).id)
   end
 
+  test "the demo user cannot change or cancel the account through JSON" do
+    sign_in users(:johan)
+    before = users(:johan).reload.attributes
+
+    patch "/users", params: { user: { email: "x@tasker.com", current_password: "123456" } }, as: :json
+    put "/users", params: { user: { password: "abcdef", password_confirmation: "abcdef", current_password: "123456" } },
+                  as: :json
+    delete "/users.json"
+
+    assert_equal before, users(:johan).reload.attributes
+  end
+
+  test "signing in with odd email casing does not get around the guard" do
+    post user_session_path, params: { user: { email: " JOHAN@Tasker.com ", password: "123456" } }
+
+    get edit_user_registration_path
+
+    assert_redirected_to root_path
+  end
+
   test "other users still open their account page" do
     sign_in users(:outsider)
 
