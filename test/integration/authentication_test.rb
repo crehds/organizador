@@ -32,4 +32,14 @@ class AuthenticationTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_includes response.body, task.name
   end
+
+  test "the demo login shows a message when the demo user is missing" do
+    users(:johan).destroy!
+
+    get "/test"
+    assert_redirected_to new_user_session_path
+
+    follow_redirect!
+    assert_select "#flash_alert", "The demo is not available right now."
+  end
 end
