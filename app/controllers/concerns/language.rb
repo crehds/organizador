@@ -11,7 +11,8 @@ module Language
     end
 
     def locale_from_header
-      request.env["HTTP_ACCEPT_LANGUAGE"]&.scan(/^[a-z]{2}/)&.first
+      locale = request.env["HTTP_ACCEPT_LANGUAGE"]&.scan(/^[a-z]{2}/)&.first
+      locale if I18n.locale_available?(locale)
     end
   end
 end
