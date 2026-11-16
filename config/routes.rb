@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   end
   resources :categories
   post "demo/reset", to: "demo_resets#create"
+
+  # Railway's health check; answers 200 once the app boots.
+  get "up" => "rails/health#show", as: :rails_health_check
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
