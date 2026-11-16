@@ -13,6 +13,18 @@ A task organizer built with Ruby on Rails. It started as the project of two Plat
 - Dates and framework messages follow the browser language (Spanish or English).
 - A demo reset that removes what visitors leave behind and reloads the demo data.
 
+## Two installations: the demo and a private one
+
+The same code runs the public demo and private installations with real data, each with its own database. The `DEMO_MODE` variable tells them apart:
+
+| | `DEMO_MODE=true` (demo) | Any other value (private) |
+|---|---|---|
+| Landing page | "Probar el demo" and "Iniciar sesión" | "Iniciar sesión" only |
+| `/test` one-click demo login | Signs visitors in as the shared demo account | Answers like a route that does not exist |
+| Demo banner and demo account guard | Shown for `johan@tasker.com` | `johan@tasker.com`, if it exists, is an ordinary account |
+
+When `DEMO_MODE` is unset, it is off in production and on in development and test.
+
 ## Stack
 
 Ruby 3.4.12 · Rails 8.1.4.1 · PostgreSQL · Hotwire (Turbo and Stimulus) · esbuild and Sass with Bootstrap 5 · Sprockets · HAML · Simple Form · Devise · CanCanCan · Minitest
@@ -63,6 +75,7 @@ Railway builds the app with Railpack, which detects Rails, installs the Node pac
    - `RAILS_ENV` = `production`
    - `RAILS_MASTER_KEY` = the contents of `config/master.key`
    - `DATABASE_URL` = `${{Postgres.DATABASE_URL}}`
+   - `DEMO_MODE` = `true`. Set it on the demo service before deploying a version that reads it: without it, production runs as a private installation and the live demo loses `/test`.
    - `DEMO_RESET_TOKEN` = a long random value, for example from `openssl rand -hex 32`
 3. In the service settings, set the pre-deploy command to `bin/rails db:prepare` and the health check path to `/up`.
 4. Generate a public domain.

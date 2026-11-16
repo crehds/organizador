@@ -2,6 +2,9 @@ class Users::TestsController < ApplicationController
   skip_before_action :authenticate_user!
 
   def new
+    # A private installation has no demo, so /test answers exactly like a missing route.
+    raise ActionController::RoutingError, "Not Found" unless demo_mode?
+
     user = User.find_by(email: User::DEMO_EMAIL)
     return redirect_to new_user_session_path, alert: "The demo is not available right now." unless user
 

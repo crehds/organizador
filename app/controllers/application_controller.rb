@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!
   before_action :turbo_frame_request_variant
+  helper_method :demo_mode?
 
   rescue_from CanCan::AccessDenied do |_exception|
     redirect_to root_path
@@ -18,6 +19,11 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  # Read on every request, not when the routes are drawn, so tests can switch it.
+  def demo_mode?
+    Rails.configuration.x.demo_mode
+  end
 
   # The demo banner's "Crear mi cuenta" asks for the sign up page; any other value keeps Devise's default,
   # so sign out never redirects to a URL taken from the request.

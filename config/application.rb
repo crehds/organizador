@@ -36,5 +36,9 @@ module Organizador
 
     # The app stores no images, so skip image variants (and the boot warning about image_processing).
     config.active_storage.variant_processor = :disabled
+
+    # DEMO_MODE=true runs the public demo (/test, the demo banner, the demo reset and the demo seeds); any other
+    # value runs a private installation. Unset, it is off in production and on in development and test.
+    config.x.demo_mode = ENV.fetch("DEMO_MODE") { Rails.env.production? ? "false" : "true" } == "true"
   end
 end

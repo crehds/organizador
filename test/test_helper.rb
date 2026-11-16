@@ -17,6 +17,15 @@ module ActiveSupport
         participating_users: [Participant.new(user: participant, role: :responsable)]
       )
     end
+
+    # The app reads DEMO_MODE at request time, so a test can switch it and restore it afterwards.
+    def with_demo_mode(enabled)
+      previous = Rails.configuration.x.demo_mode
+      Rails.configuration.x.demo_mode = enabled
+      yield
+    ensure
+      Rails.configuration.x.demo_mode = previous
+    end
   end
 end
 

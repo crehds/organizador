@@ -22,7 +22,8 @@ class User < ApplicationRecord
   has_many :participations, class_name: "Participant"
   has_many :tasks, through: :participations
 
+  # Only the demo installation shares this account; in a private one the same email is an ordinary user.
   def demo?
-    email == DEMO_EMAIL
+    Rails.configuration.x.demo_mode && email == DEMO_EMAIL
   end
 end
