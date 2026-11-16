@@ -10,6 +10,8 @@ namespace :users do
 
     puts "Created #{user.email}"
     puts "Password: #{password}"
-    puts "It is shown only this once. After signing in, the user can change it at /users/edit."
+    puts "It is shown only this once."
+    # Demo mode locks the account page, so the hint would be false there.
+    puts "After signing in, the user can change it at /users/edit." unless Rails.configuration.x.demo_mode
   end
 end

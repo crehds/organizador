@@ -24,7 +24,7 @@ class DemoAccountTest < ActionDispatch::IntegrationTest
     assert users(:johan).reload.valid_password?("123456")
   end
 
-  test "the demo user cannot change or cancel the account through JSON" do
+  test "the demo user cannot change the account through JSON, and the removed cancel route deletes nothing" do
     sign_in users(:johan)
     before = users(:johan).reload.attributes
 

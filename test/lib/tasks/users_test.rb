@@ -20,6 +20,7 @@ class UsersTaskTest < ActionDispatch::IntegrationTest
     assert_match "nueva@example.com", output
     assert_operator password.length, :>=, 16
     assert_equal 1, output.scan(password).size
+    assert_match "the user can change it at /users/edit", output
     post user_session_path, params: { user: { email: "nueva@example.com", password: } }
     get tasks_path
     assert_response :success
@@ -33,6 +34,7 @@ class UsersTaskTest < ActionDispatch::IntegrationTest
     assert User.find_by(email: "uno@example.com").valid_password?(passwords.first)
     assert User.find_by(email: "dos@example.com").valid_password?(passwords.second)
     assert_not_equal passwords.first, passwords.second
+    assert_no_match "/users/edit", first, "demo mode locks the account page"
   end
 
   test "a missing, invalid or taken email fails with a clear message and creates nothing" do

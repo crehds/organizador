@@ -21,7 +21,8 @@ The same code runs the public demo and private installations with real data, eac
 |---|---|---|
 | Landing page | "Probar el demo" and "Iniciar sesión" | "Iniciar sesión" only |
 | `/test` one-click demo login | Signs visitors in as the shared demo account | Answers like a route that does not exist |
-| Demo banner and demo account guard | Shown for `johan@tasker.com` | `johan@tasker.com`, if it exists, is an ordinary account |
+| Demo banner | Shown for `johan@tasker.com` | Not shown |
+| Account page (`/users/edit`) | Locked for every account, because the seeded passwords are public | Each user changes their own password |
 | `db:seed` and `db:prepare` | Load the demo data | Print one line and create nothing, so a new database stays empty |
 | Demo reset (`demo:reset`, `POST /demo/reset`) | Deletes everything and reloads the demo data | `demo:reset` aborts, the endpoint answers like a missing route, nothing is deleted |
 
