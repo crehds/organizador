@@ -28,25 +28,6 @@ class DemoModeTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
-  test "in demo mode the landing page offers the demo and sign in" do
-    get root_path
-
-    assert_select "a[href=?]", "/test", text: "Probar el demo"
-    assert_select "a[href=?]", new_user_session_path, text: "Iniciar sesión"
-    assert_includes response.body, "cuenta compartida"
-  end
-
-  test "outside demo mode the landing page keeps the description and drops the demo" do
-    with_demo_mode(false) { get root_path }
-
-    assert_response :success
-    assert_select "h1", "Organizador"
-    assert_select "a[href=?]", new_user_session_path, text: "Iniciar sesión"
-    assert_select ".landing-page a", count: 1
-    assert_not_includes response.body, "Probar el demo"
-    assert_not_includes response.body, "cuenta compartida"
-  end
-
   test "the sign in page links to the demo only in demo mode" do
     get new_user_session_path
     assert_select "a[href=?]", "/test"

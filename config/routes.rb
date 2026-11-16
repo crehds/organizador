@@ -19,9 +19,11 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Signed in users keep their task list at "/"; guests get the landing page there.
+  # Signed in users keep their task list at "/"; guests get the sign-in page there.
   authenticated :user do
     root "tasks#index", as: :authenticated_root
   end
-  root "pages#home"
+  devise_scope :user do
+    root "devise/sessions#new"
+  end
 end

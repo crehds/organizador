@@ -19,7 +19,7 @@ The same code runs the public demo and private installations with real data, eac
 
 | | `DEMO_MODE=true` (demo) | Any other value (private) |
 |---|---|---|
-| Landing page | "Probar el demo" and "Iniciar sesión" | "Iniciar sesión" only |
+| Sign-in page at `/` | Explains the project and offers "Probar el demo" above the form | The form only |
 | `/test` one-click demo login | Signs visitors in as the shared demo account | Answers like a route that does not exist |
 | Demo banner | Shown for `johan@tasker.com` | Not shown |
 | Account page (`/users/edit`) | Locked for every account, because the seeded passwords are public | Each user changes their own password |
