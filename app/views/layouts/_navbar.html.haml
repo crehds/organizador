@@ -12,7 +12,7 @@
   = link_to "Crear Tarea", new_task_path, class: "btn btn-light ml-2"
   .dropdown.dropdown-user
     %a#userMenu{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown" }
-      = image_tag "https://robohash.org/#{current_user.email}?size=38x38"
+      = avatar_for(current_user, size: 38)
     .dropdown-menu.dropdown-menu-end{"aria-labelledby" => "userMenu"}
       .dropdown-item.small.text-right= current_user.email
       .dropdown-divider

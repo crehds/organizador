@@ -1,0 +1,16 @@
+// Drawn by ApplicationHelper#avatar_for, which sets --avatar-size and --avatar-hue on each avatar.
+.user-avatar
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	flex-shrink: 0
+	width: var(--avatar-size)
+	height: var(--avatar-size)
+	border-radius: 50%
+	// 30% lightness keeps the white initials above 4.5:1 contrast for every hue.
+	background-color: hsl(var(--avatar-hue), 50%, 30%)
+	color: white
+	font-size: calc(var(--avatar-size) * 0.4)
+	font-weight: 600
+	line-height: 1
+	user-select: none

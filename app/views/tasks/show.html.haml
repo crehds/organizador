@@ -31,7 +31,7 @@
           .font-weight-bold.text-uppercase= "Participantes"
         - @task.participating_users.includes(:user).each do |participant|
           .task-participant{ class: "task-participant--#{participant.role}" }
-            = image_tag "https://robohash.org/#{participant.user.email}?size=60x60", title: participant.user.email
+            = avatar_for(participant.user, size: 50)
       = link_to t("common.edit"), edit_task_path(@task)
       \|
       = link_to t("common.back"), tasks_path
