@@ -23,6 +23,9 @@ Rails.application.configure do
   # Railway puts no web server in front of Puma, so Puma serves `/public` (including precompiled assets).
   config.public_file_server.enabled = true
 
+  # Precompiled assets carry a digest in their names, so browsers can cache them for a year.
+  config.public_file_server.headers = { "cache-control" => "public, max-age=#{1.year.to_i}" }
+
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
 
