@@ -12,10 +12,17 @@
 #  updated_at             :datetime         not null
 #
 class User < ApplicationRecord
+  # /test signs every visitor in as this user, which db/seeds.rb creates.
+  DEMO_EMAIL = "johan@tasker.com".freeze
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :participations, class_name: "Participant"
   has_many :tasks, through: :participations
+
+  def demo?
+    email == DEMO_EMAIL
+  end
 end
