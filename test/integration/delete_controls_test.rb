@@ -30,12 +30,4 @@ class DeleteControlsTest < ActionDispatch::IntegrationTest
     get tasks_path
     assert_redirected_to new_user_session_path
   end
-
-  test "cancelling the account asks for confirmation and sends a DELETE" do
-    # johan is the demo account, which cannot open this page; the last sign_in wins.
-    sign_in users(:outsider)
-    get edit_user_registration_path
-
-    assert_select "form[action=?][data-turbo-confirm] input[name=_method][value=delete]", user_registration_path
-  end
 end

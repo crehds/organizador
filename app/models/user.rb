@@ -15,10 +15,10 @@ class User < ApplicationRecord
   # /test signs every visitor in as this user, which db/seeds.rb creates.
   DEMO_EMAIL = "johan@tasker.com".freeze
 
-  # Include default devise modules. Others available are:
+  # No :registerable (accounts come from `bin/rails users:create`) and no :recoverable (production sends no mail),
+  # so Devise draws no sign up or password reset routes. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, :rememberable, :validatable
   has_many :participations, class_name: "Participant"
   has_many :tasks, through: :participations
 

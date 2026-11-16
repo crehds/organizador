@@ -6,6 +6,5 @@
     = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
   .form-actions.align-self-center
     = f.button :submit, "Log in", class: "btn btn-outline-primary"
-    = render "devise/shared/links"
     -# request turbo frame
     = link_to 'Test Environment', test_path, class: "btn btn-info" if demo_mode?

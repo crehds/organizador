@@ -9,7 +9,7 @@ A task organizer built with Ruby on Rails. It started as the project of two Plat
 - Tasks with a category, a due date, an owner, and participants with a role (responsible or follower), edited with nested forms.
 - Notes on a task, added without a page reload (Turbo Streams).
 - Permissions with CanCanCan: owners manage their tasks, participants can read them, everyone else is kept out.
-- Sign up and sign in with Devise, plus a one-click demo login at `/test`.
+- Sign in with Devise. There is no public sign-up: accounts are created from the terminal. The demo adds a one-click login at `/test`.
 - Dates and framework messages follow the browser language (Spanish or English).
 - A demo reset that removes what visitors leave behind and reloads the demo data.
 
@@ -37,6 +37,12 @@ bin/rails users:create EMAIL=someone@example.com
 
 It prints the email and a random 16-character password once. It stops with a message and a non-zero exit when `EMAIL` is missing, invalid, or already taken.
 
+No page offers sign-up, in either mode.
+
+### The account page
+
+Signed-in users change their password at `/users/edit`, confirming it with the current one. That is all the page does: email changes are ignored, accounts cannot be cancelled, and there is no "forgot password", because production sends no mail. In demo mode the shared demo account cannot open it.
+
 ## Stack
 
 Ruby 3.4.12 · Rails 8.1.4.1 · PostgreSQL · Hotwire (Turbo and Stimulus) · esbuild and Sass with Bootstrap 5 · Sprockets · HAML · Simple Form · Devise · CanCanCan · Minitest
@@ -47,6 +53,7 @@ Ruby 3.4.12 · Rails 8.1.4.1 · PostgreSQL · Hotwire (Turbo and Stimulus) · es
 - Added an integration test suite for sign-in, the demo login, tasks, permissions, categories, and notes.
 - Fixed bugs: a shell command run from a view, tasks and categories that could not be deleted, delete and sign-out links that Turbo ignored, notes that any signed-in user could add to any task, and a crash on unsupported browser languages.
 - Added the demo reset and protected the demo account.
+- Split the app into a public demo and private installations (`DEMO_MODE`), and replaced public sign-up with accounts created from the terminal.
 
 ## Run it locally
 
@@ -76,9 +83,9 @@ Only in demo mode, both commands delete all data, visitor accounts included, and
 - `bin/rails demo:reset`
 - `POST /demo/reset` with the header `Authorization: Bearer <DEMO_RESET_TOKEN>`. When `DEMO_RESET_TOKEN` is not set, the route answers like any route that does not exist.
 
-The demo account (`johan@tasker.com`) cannot be edited or cancelled, so `/test` keeps working.
+The demo account (`johan@tasker.com`) cannot change its password, so `/test` keeps working.
 
-## Deploy on Railway
+## Deploy the demo on Railway
 
 Railway builds the app with Railpack, which detects Rails, installs the Node packages, and runs `assets:precompile`.
 
@@ -95,4 +102,19 @@ Railway builds the app with Railpack, which detects Rails, installs the Node pac
 
    ```sh
    curl -X POST https://<your-domain>/demo/reset -H "Authorization: Bearer <DEMO_RESET_TOKEN>"
+   ```
+
+## Deploy a private installation on Railway
+
+A private installation runs the same code with its own database and sleeps when nobody uses it.
+
+1. Add a second web service from this repository, in a new environment or project, with its own PostgreSQL service. Never point it at the demo's database.
+2. Set `RAILS_ENV`, `RAILS_MASTER_KEY`, and `DATABASE_URL` (the new PostgreSQL) as for the demo. Leave `DEMO_MODE` and `DEMO_RESET_TOKEN` unset.
+3. Set the pre-deploy command to `bin/rails db:prepare`, which creates the tables and no data, and the health check path to `/up`.
+4. Turn on Serverless in the service settings. The service sleeps several minutes after its last request, and the first request after that can be slow or fail once.
+5. Create the first account from a shell on the service, then sign in with the printed password and change it at `/users/edit`:
+
+   ```sh
+   railway ssh
+   bin/rails users:create EMAIL=you@example.com
    ```

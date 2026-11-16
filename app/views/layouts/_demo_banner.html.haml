@@ -2,5 +2,4 @@
   %p.mb-0.me-auto
     %strong Estás en el demo.
     Es una cuenta compartida: otros visitantes ven lo que cambies y los datos se pueden reiniciar en cualquier momento.
-  = button_to "Crear mi cuenta", destroy_user_session_path, method: :delete, params: { next: "sign_up" }, class: "btn btn-dark btn-sm"
   = button_to "Salir", destroy_user_session_path, method: :delete, class: "btn btn-outline-dark btn-sm"

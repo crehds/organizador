@@ -8,7 +8,7 @@ class LandingPageTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "a[href=?]", "/test", text: "Probar el demo"
     assert_select "a[href=?]", new_user_session_path
-    assert_select "a[href=?]", new_user_registration_path
+    assert_select ".landing-page a", count: 2
   end
 
   test "signed in users get their task list at the root" do

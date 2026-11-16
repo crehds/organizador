@@ -42,7 +42,7 @@ class DemoModeTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1", "Organizador"
     assert_select "a[href=?]", new_user_session_path, text: "Iniciar sesión"
-    assert_select "a[href=?]", "/test", count: 0
+    assert_select ".landing-page a", count: 1
     assert_not_includes response.body, "Probar el demo"
     assert_not_includes response.body, "cuenta compartida"
   end

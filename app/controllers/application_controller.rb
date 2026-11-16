@@ -24,10 +24,4 @@ class ApplicationController < ActionController::Base
   def demo_mode?
     Rails.configuration.x.demo_mode
   end
-
-  # The demo banner's "Crear mi cuenta" asks for the sign up page; any other value keeps Devise's default,
-  # so sign out never redirects to a URL taken from the request.
-  def after_sign_out_path_for(scope)
-    params[:next] == "sign_up" ? new_user_registration_path : super
-  end
 end
