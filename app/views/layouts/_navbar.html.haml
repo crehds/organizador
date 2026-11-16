@@ -10,12 +10,9 @@
       %li.nav-item
         %a.nav-link{ href: categories_path } Categorías
   = link_to "Crear Tarea", new_task_path, class: "btn btn-light ml-2"
-  .dropdown.dropdown-user
-    %a#userMenu{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown" }
-      = avatar_for(current_user, size: 38)
-    .dropdown-menu.dropdown-menu-end{"aria-labelledby" => "userMenu"}
-      .dropdown-item.small.text-right= current_user.email
-      .dropdown-divider
-      = button_to destroy_user_session_path, method: :delete, class: "dropdown-item" do
-        .fas.fa-sign-out
-        Cerrar sesión
+  .d-flex.flex-wrap.align-items-center.gap-2.mx-3
+    = avatar_for(current_user, size: 38)
+    %span.navbar-text= current_user.email
+    = button_to destroy_user_session_path, method: :delete, class: "btn btn-outline-light btn-sm" do
+      %i.fas.fa-sign-out{ "aria-hidden" => "true" }
+      Cerrar sesión
