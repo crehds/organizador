@@ -108,6 +108,14 @@ class TasksTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
   end
 
+  test "shows the task code in the page title" do
+    sign_in users(:johan)
+
+    get task_path(@task)
+
+    assert_select "span.small", text: "[#{@task.code}]"
+  end
+
   private
 
   def task_params(**overrides)
