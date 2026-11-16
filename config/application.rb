@@ -33,5 +33,8 @@ module Organizador
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # The app stores no images, so skip image variants (and the boot warning about image_processing).
+    config.active_storage.variant_processor = :disabled
   end
 end
