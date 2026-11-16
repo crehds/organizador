@@ -29,6 +29,16 @@ class NotesTest < ActionDispatch::IntegrationTest
     assert_response :no_content
   end
 
+  test "a participant cannot add notes either" do
+    sign_in users(:juan)
+
+    assert_no_difference -> { Note.count } do
+      post task_notes_path(@task), params: { note: { body: "Participant" } }, headers: TURBO_STREAM
+    end
+
+    assert_redirected_to root_path
+  end
+
   test "someone outside the task cannot add notes" do
     sign_in users(:outsider)
 
