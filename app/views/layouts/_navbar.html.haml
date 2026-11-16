@@ -16,6 +16,6 @@
     .dropdown-menu.dropdown-menu-end{"aria-labelledby" => "userMenu"}
       .dropdown-item.small.text-right= current_user.email
       .dropdown-divider
-      = link_to destroy_user_session_path, method: :delete, class: "dropdown-item" do
+      = button_to destroy_user_session_path, method: :delete, class: "dropdown-item" do
         .fas.fa-sign-out
         Cerrar sesión
