@@ -44,4 +44,15 @@ class CategoriesTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to categories_url
   end
+
+  test "keeps a category that still has tasks" do
+    create_task
+
+    assert_no_difference -> { Category.count } do
+      delete category_path(categories(:desarrollo))
+    end
+
+    assert_redirected_to categories_url
+    assert flash[:alert].present?
+  end
 end
