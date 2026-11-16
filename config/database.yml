@@ -80,8 +80,9 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+# Railway provides DATABASE_URL; nothing from the development defaults (like the local password) applies here.
 production:
-  <<: *default
-  database: organizador_production
-  username: organizador
-  password: <%= ENV["ORGANIZADOR_DATABASE_PASSWORD"] %>
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  url: <%= ENV["DATABASE_URL"] %>
