@@ -21,10 +21,14 @@ class DeleteControlsTest < ActionDispatch::IntegrationTest
                   category_path(categories(:desarrollo))
   end
 
-  test "signing out sends a DELETE" do
+  test "signing out sends a DELETE that signs the user out" do
     get tasks_path
-
     assert_select "form[action=?] input[name=_method][value=delete]", destroy_user_session_path
+
+    delete destroy_user_session_path
+
+    get tasks_path
+    assert_redirected_to new_user_session_path
   end
 
   test "cancelling the account asks for confirmation and sends a DELETE" do
