@@ -52,7 +52,8 @@ Rails.application.configure do
   # Tell Active Support which deprecation messages to disallow.
   config.active_support.disallowed_deprecation_warnings = []
 
-  # shortcut: checking fixture foreign keys needs a PostgreSQL superuser and our fixtures have none; re-enable if fixtures gain foreign keys.
+  # shortcut: checking fixture foreign keys needs a PostgreSQL superuser and our fixtures have none;
+  # re-enable if fixtures gain foreign keys.
   config.active_record.verify_foreign_keys_for_fixtures = false
 
   # Raises error for missing translations.

@@ -69,9 +69,10 @@ class TasksTest < ActionDispatch::IntegrationTest
   test "rejects the same participant twice" do
     sign_in users(:johan)
     participant = { user_id: users(:juan).id, role: "responsable" }
+    duplicated = { "0" => participant, "1" => participant }
 
     assert_no_difference -> { Task.count } do
-      post tasks_path, params: { task: task_params(participating_users_attributes: { "0" => participant, "1" => participant }) }
+      post tasks_path, params: { task: task_params(participating_users_attributes: duplicated) }
     end
 
     assert_redirected_to new_task_path
