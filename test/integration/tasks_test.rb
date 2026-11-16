@@ -108,6 +108,17 @@ class TasksTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
   end
 
+  test "the owner deletes a task with its participants and notes" do
+    sign_in users(:johan)
+    @task.notes.create!(user: users(:johan), body: "Done")
+
+    assert_difference -> { Task.count } => -1, -> { Participant.count } => -1, -> { Note.count } => -1 do
+      delete task_path(@task)
+    end
+
+    assert_redirected_to tasks_url
+  end
+
   test "shows the task code in the page title" do
     sign_in users(:johan)
 
