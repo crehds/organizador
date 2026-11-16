@@ -1,0 +1,12 @@
+<% password = Devise::Encryptor.digest(User, "123456") %>
+johan:
+  email: johan@tasker.com
+  encrypted_password: <%= password %>
+
+juan:
+  email: juan@tasker.com
+  encrypted_password: <%= password %>
+
+outsider:
+  email: outsider@tasker.com
+  encrypted_password: <%= password %>
