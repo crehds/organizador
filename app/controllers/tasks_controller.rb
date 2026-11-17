@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   load_and_authorize_resource
   before_action :set_task, only: %i[show edit update destroy]
+  helper_method :participant_choices
 
   # GET /tasks or /tasks.json
   def index
@@ -75,6 +76,20 @@ class TasksController < ApplicationController
     if permitted.key?(:category_id) && !visible_categories.exists?(permitted[:category_id])
       permitted[:category_id] = nil
     end
+    reject_other_visitors(permitted[:participating_users_attributes]) if demo_mode?
     permitted
+  end
+
+  # The users the participant picker offers: in demo mode only the fictitious teammates, never another visitor.
+  def participant_choices
+    demo_mode? ? User.teammates : User.where.not(id: current_user.id)
+  end
+
+  # The server keeps the picker's demo rule: a participant outside it fails like one without a user.
+  # Forms send the participants as a hash keyed by index, JSON may send an array.
+  def reject_other_visitors(participants)
+    (participants.respond_to?(:each_value) ? participants.each_value : Array(participants)).each do |participant|
+      participant[:user_id] = nil if participant.key?(:user_id) && !participant_choices.exists?(participant[:user_id])
+    end
   end
 end
