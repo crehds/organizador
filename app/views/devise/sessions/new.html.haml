@@ -1,23 +1,15 @@
+-# The demo has no sign-in form: visitors enter with the button, which creates their temporary account.
 - if demo_mode?
-  .demo-intro.container.mb-5
-    %h1.display-5 Organizador
-    %p.lead
-      Un organizador de tareas: cada tarea tiene una categoría, una fecha de vencimiento, un creador y participantes,
-      y admite notas que aparecen sin recargar la página.
-    %p
-      Nació como el proyecto de dos cursos de Platzi sobre Ruby on Rails (básico e intermedio).
-      Después se actualizó a Rails 8.1, se cubrió con tests y se desplegó en Railway.
-    .d-flex.flex-wrap.align-items-center.gap-3
-      = button_to "Probar el demo", test_path, class: "btn btn-primary btn-lg", form: { data: { turbo: false } }
-      %span.small.text-muted El demo entra sin contraseña a una cuenta compartida.
-    %ul.list-inline.mt-4
-      - ["Ruby 3.4", "Rails 8.1", "PostgreSQL", "Hotwire", "Bootstrap 5", "Devise", "CanCanCan"].each do |tool|
-        %li.list-inline-item.badge.text-bg-light.border.fs-6.fw-normal= tool
-%h2 Sign In
-= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { data: { turbo: false }, class: "d-flex w-50 flex-column" }) do |f|
-  .form-inputs
-    = f.input :email, required: true, autofocus: true, input_html: { autocomplete: "email" }, class: "form-control"
-    = f.input :password, required: true, input_html: { autocomplete: "current-password" }, class: "form-control"
-    = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
-  .form-actions.align-self-center
-    = f.button :submit, "Log in", class: "btn btn-outline-primary"
+  %p.text-muted.text-center.mb-4
+    Un organizador de tareas: cada tarea tiene una categoría, una fecha de vencimiento, un creador y participantes,
+    y admite notas que aparecen sin recargar la página.
+  = button_to "Probar el demo", test_path, class: "btn btn-primary btn-lg", form: { data: { turbo: false } }
+- else
+  %h2 Iniciar sesión
+  = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { data: { turbo: false }, class: "d-flex w-50 flex-column" }) do |f|
+    .form-inputs
+      = f.input :email, label: "Correo", required: true, autofocus: true, input_html: { autocomplete: "email" }, class: "form-control"
+      = f.input :password, label: "Contraseña", required: true, input_html: { autocomplete: "current-password" }, class: "form-control"
+      = f.input :remember_me, label: "Recordarme", as: :boolean if devise_mapping.rememberable?
+    .form-actions.align-self-center
+      = f.button :submit, "Entrar", class: "btn btn-outline-primary"

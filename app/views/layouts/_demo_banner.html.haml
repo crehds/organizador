@@ -1,5 +1,6 @@
 %section.demo-banner.alert.alert-warning.rounded-0.border-0.mb-0.py-2.d-flex.flex-wrap.align-items-center.gap-2{ "aria-label" => "Modo demo" }
   %p.mb-0.me-auto
-    %strong Estás en el demo.
-    Es una cuenta compartida: otros visitantes ven lo que cambies y los datos se pueden reiniciar en cualquier momento.
-  = button_to "Salir", destroy_user_session_path, method: :delete, class: "btn btn-outline-dark btn-sm"
+    Es un demo: tu cuenta es temporal y se borra a las 24 horas. Si cierras sesión o el navegador, no podrás volver a entrar.
+  -# The sign-in page shows the same notice to guests, who have nothing to leave.
+  - if user_signed_in?
+    = button_to "Salir", destroy_user_session_path, method: :delete, class: "btn btn-outline-dark btn-sm"

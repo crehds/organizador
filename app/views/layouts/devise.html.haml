@@ -7,8 +7,9 @@
     = csp_meta_tag
     = javascript_include_tag "application", "data-turbolinks-track": "reload"
     = stylesheet_link_tag "application", media: "all", "data-turbolinks-track": "reload"
-  %body.mt-5
-    .container
+  %body
+    = render "layouts/demo_banner" if demo_mode?
+    .container.mt-5
       .main-flash-messages
         = render "layouts/messages"
     .fullscreen

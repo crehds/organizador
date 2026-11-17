@@ -12,6 +12,7 @@ class DemoBannerTest < ActionDispatch::IntegrationTest
     get tasks_path
 
     assert_select ".demo-banner", count: 1
+    assert_select ".demo-banner p", text: SignInPageTest::NOTICE
     assert_select ".demo-banner form[action=?]", destroy_user_session_path, count: 1
     assert_select ".demo-banner form[action=?] button", destroy_user_session_path, text: "Salir"
     assert_select ".demo-banner input[name=next]", count: 0
@@ -23,13 +24,6 @@ class DemoBannerTest < ActionDispatch::IntegrationTest
 
     get tasks_path
 
-    assert_select ".demo-banner", count: 0
-  end
-
-  test "guests do not see the banner on the sign in page" do
-    get new_user_session_path
-
-    assert_response :success
     assert_select ".demo-banner", count: 0
   end
 

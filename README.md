@@ -19,7 +19,7 @@ The same code runs the public demo and private installations with real data, eac
 
 | | `DEMO_MODE=true` (demo) | Any other value (private) |
 |---|---|---|
-| Sign-in page at `/` | Explains the project and offers "Probar el demo" above the form | The form only |
+| Sign-in page at `/` | A notice that the visitor's account is temporary, one line about the app, and the "Probar el demo" button; no sign-in form | The sign-in form only, in Spanish |
 | "Probar el demo" (`POST /test`) | Creates a temporary visitor account with its own sample data and signs it in; `GET /test` goes to the sign-in page | Both answer like a route that does not exist |
 | Demo banner | Shown to visitors | Not shown |
 | Categories | Each user sees and uses only their own | Shared by every user |
