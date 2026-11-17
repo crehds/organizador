@@ -36,6 +36,17 @@ class TaskPagesTest < ActionDispatch::IntegrationTest
     assert_select ".notes-empty", text: "Todavía no hay notas."
   end
 
+  test "the edit form marks nothing as valid before it is checked and saves with a Spanish button" do
+    get edit_task_path(@task)
+
+    assert_select ".is-valid", count: 0
+    assert_select "input[type=submit][value=?]", "Guardar cambios"
+
+    get new_task_path
+
+    assert_select "input[type=submit][value=?]", "Crear tarea"
+  end
+
   test "the role select offers Spanish labels" do
     get edit_task_path(@task)
 

@@ -36,6 +36,14 @@ es:
     destroy: Eliminar
     edit: Editar
     show: Ver
+  helpers:
+    submit:
+      category:
+        create: Crear categoría
+        update: Guardar cambios
+      task:
+        create: Crear tarea
+        update: Guardar cambios
   participant:
     roles:
       follower: Seguidor

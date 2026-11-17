@@ -1,10 +1,10 @@
 .nested-fields.row.g-2.align-items-end
   .col-sm-6
     = form.input :user_id, label: "Usuario", as: :select, collection: participant_choices, label_method: -> (u) { u.email }
-  .col-9.col-sm-4
+  .col
     = form.input :role, label: "Rol", as: :select, collection: Participant.roles, value_method: -> (r) { r[0] }, label_method: -> (r) { t("participant.roles.#{r[0]}") }
-  .col-3.col-sm-2
+  .col-auto
     .form-group
-      = link_to_remove_nested form, link_classes: "btn btn-outline-danger w-100", fields_wrapper_selector: ".nested-fields" do
+      = link_to_remove_nested form, link_classes: "btn btn-outline-danger", fields_wrapper_selector: ".nested-fields" do
         %i.fa-solid.fa-trash{ "aria-hidden" => "true" }
         %span.visually-hidden Quitar participante
