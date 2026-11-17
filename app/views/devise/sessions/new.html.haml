@@ -2,7 +2,7 @@
 - if demo_mode?
   %p.entry-lead.text-muted
     Tareas con categoría, fecha de vencimiento y participantes, y notas que aparecen sin recargar la página.
-  = button_to "Probar el demo", test_path, class: "btn btn-entry btn-lg w-100", form: { data: { turbo: false } }
+  = button_to "Probar el demo", test_path, class: "btn btn-primary btn-lg w-100", form: { data: { turbo: false } }
 - else
   %h2.entry-heading Iniciar sesión
   = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { data: { turbo: false } }) do |f|
@@ -10,4 +10,4 @@
       = f.input :email, label: "Correo", required: true, autofocus: true, input_html: { autocomplete: "email" }
       = f.input :password, label: "Contraseña", required: true, input_html: { autocomplete: "current-password" }
       = f.input :remember_me, label: "Recordarme", as: :boolean if devise_mapping.rememberable?
-    = f.button :submit, "Entrar", class: "btn btn-entry btn-lg w-100 mt-2"
+    = f.button :submit, "Entrar", class: "btn btn-primary btn-lg w-100 mt-2"

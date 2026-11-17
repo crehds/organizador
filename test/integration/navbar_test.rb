@@ -19,4 +19,18 @@ class NavbarTest < ActionDispatch::IntegrationTest
     assert_select "nav form[action=?] button", destroy_user_session_path, text: "Cerrar sesión"
     assert_select ".dropdown-menu form[action=?]", destroy_user_session_path, count: 0
   end
+
+  test "the navbar marks the section being viewed" do
+    get categories_path
+
+    assert_select "nav a.nav-link.active[aria-current=page]", count: 1
+    assert_select "nav a.nav-link.active[aria-current=page]", text: "Categorías"
+    assert_select "nav a.nav-link[href=?]:not(.active):not([aria-current])", tasks_path
+  end
+
+  test "page content sits inside the main container" do
+    get tasks_path
+
+    assert_select "main.container .tasks.index-page"
+  end
 end

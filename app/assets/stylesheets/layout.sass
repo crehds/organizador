@@ -1,0 +1,90 @@
+// The signed-in shell: navbar, page headers, cards and forms.
+.app-brand
+	display: inline-flex
+	align-items: center
+	gap: .625rem
+	font-weight: 700
+	letter-spacing: -.01em
+
+.app-mark
+	display: inline-grid
+	place-items: center
+	width: 2rem
+	height: 2rem
+	border-radius: .625rem
+	background-color: $accent
+	color: #fff
+	font-size: .95rem
+
+.app-navbar
+	.nav-link.active
+		font-weight: 600
+		box-shadow: inset 0 -2px 0 $accent
+	.navbar-text
+		overflow-wrap: anywhere
+
+.page-header
+	display: flex
+	flex-wrap: wrap
+	align-items: flex-end
+	justify-content: space-between
+	gap: 1rem
+	margin-bottom: 1.5rem
+
+.page-kicker
+	margin-bottom: .25rem
+	font-size: .8rem
+	font-weight: 600
+	letter-spacing: .06em
+	text-transform: uppercase
+	color: $accent
+
+.page-title
+	margin: 0
+	font-size: 1.75rem
+	font-weight: 700
+	letter-spacing: -.02em
+	overflow-wrap: anywhere
+
+.page-lead
+	margin: .375rem 0 0
+	color: $secondary
+
+.section-title
+	margin-bottom: 1rem
+	font-size: 1.05rem
+	font-weight: 600
+
+.card
+	box-shadow: 0 1px 2px rgba($ink, .06), 0 8px 24px rgba($ink, .08)
+
+.empty-state
+	padding: 2.5rem 1rem
+	text-align: center
+	color: $secondary
+
+// Two-column facts (label / value) that stack instead of scrolling sideways on phones.
+.facts
+	display: grid
+	grid-template-columns: minmax(7rem, max-content) 1fr
+	gap: .75rem 1.5rem
+	margin: 0
+	dt
+		font-weight: 600
+		color: $secondary
+	dd
+		margin: 0
+		overflow-wrap: anywhere
+		white-space: pre-line
+	@include media-breakpoint-down(sm)
+		grid-template-columns: 1fr
+		gap: .25rem
+		dd
+			margin-bottom: .75rem
+
+// Simple Form wraps each field in .form-group, which Bootstrap 5 no longer spaces.
+.form-group
+	margin-bottom: 1rem
+	label
+		margin-bottom: .375rem
+		font-weight: 500

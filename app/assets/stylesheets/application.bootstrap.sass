@@ -1,3 +1,17 @@
+// The sign-in entry's palette, fed to Bootstrap so every page shares it.
+$ink: #1f2f38
+$slate: #273b47
+$paper: #e9eef1
+$accent: #2f6f8f
+
+$primary: $accent
+$dark: $slate
+$body-bg: $paper
+$body-color: $ink
+$card-border-width: 0
+$card-border-radius: 1rem
+$card-inner-border-radius: 1rem
+
 @import 'bootstrap/scss/bootstrap'
 @import 'bootstrap-icons/font/bootstrap-icons'
 
@@ -9,22 +23,6 @@ $fa-font-path: '/assets'
 @import '@fortawesome/fontawesome-free/scss/v4-shims'
 
 @import './avatars.sass'
+@import './layout.sass'
 @import './tasks.sass'
 @import './entry.sass'
-
-nav.navbar
-	.bg-dark
-		background-color: #273b47
-
-	.navbar-nav
-		.nav-item.active
-			font-weight: bold
-
-a
-	cursor: pointer
-
-.btn-interaction
-	font-size: small
-
-.card
-	border-radius: 10px

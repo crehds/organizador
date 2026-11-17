@@ -12,7 +12,6 @@
     - if current_user&.visitor?
       = render "layouts/demo_banner"
     = render "layouts/navbar" if user_signed_in?
-    .container.mt-4.pb-4
-      .main-flash-messages
-        = render "layouts/messages"
-    = yield
+    %main.container.py-4
+      = render "layouts/messages"
+      = yield

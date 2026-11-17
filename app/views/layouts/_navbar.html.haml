@@ -1,19 +1,24 @@
-%nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.px-3
-  %button.navbar-toggler{ "aria-controls" => "navbarNavDropdown", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-bs-target" => "#navbarNavDropdown", "data-bs-toggle" => "collapse", :type => "button" }
-    %span.navbar-toggler-icon
-  .collapse.navbar-collapse#navbarNavDropdown
-    %ul.navbar-nav
-      %li.nav-item.active
-        %a.nav-link{ href: root_path }
-          Inicio
-          %span.sr-only (current)
-      %li.nav-item
-        %a.nav-link{ href: categories_path } Categorías
-  = link_to "Crear Tarea", new_task_path, class: "btn btn-light ms-2"
-  .d-flex.flex-wrap.align-items-center.gap-2.mx-3
-    -# The email is shown right next to it, so screen readers skip the avatar.
-    %span{ "aria-hidden" => "true" }= avatar_for(current_user, size: 38)
-    %span.navbar-text= current_user.email
-    = button_to destroy_user_session_path, method: :delete, class: "btn btn-outline-light btn-sm" do
-      %i.fas.fa-sign-out{ "aria-hidden" => "true" }
-      Cerrar sesión
+%nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.app-navbar
+  .container
+    = link_to root_path, class: "navbar-brand app-brand" do
+      %span.app-mark{ "aria-hidden" => "true" }
+        %i.fa-solid.fa-list-check
+      Organizador
+    %button.navbar-toggler{ "aria-controls" => "mainNav", "aria-expanded" => "false", "aria-label" => "Abrir menú", "data-bs-target" => "#mainNav", "data-bs-toggle" => "collapse", :type => "button" }
+      %span.navbar-toggler-icon
+    .collapse.navbar-collapse#mainNav
+      %ul.navbar-nav.me-auto
+        %li.nav-item
+          = link_to "Tareas", tasks_path, class: class_names("nav-link", active: controller_name == "tasks"), aria: { current: ("page" if controller_name == "tasks") }
+        %li.nav-item
+          = link_to "Categorías", categories_path, class: class_names("nav-link", active: controller_name == "categories"), aria: { current: ("page" if controller_name == "categories") }
+      .d-flex.flex-wrap.align-items-center.gap-2.py-2.py-lg-0
+        = link_to new_task_path, class: "btn btn-primary btn-sm" do
+          %i.fa-solid.fa-plus{ "aria-hidden" => "true" }
+          Crear tarea
+        -# The email is shown right next to it, so screen readers skip the avatar.
+        %span.ms-lg-2{ "aria-hidden" => "true" }= avatar_for(current_user, size: 32)
+        %span.navbar-text= current_user.email
+        = button_to destroy_user_session_path, method: :delete, class: "btn btn-outline-light btn-sm" do
+          %i.fa-solid.fa-right-from-bracket{ "aria-hidden" => "true" }
+          Cerrar sesión
