@@ -7,8 +7,9 @@ class Users::TestsController < ApplicationController
   RATE_LIMIT_STORE = ActiveSupport::Cache::MemoryStore.new
 
   skip_before_action :authenticate_user!
-  # Declared before the limit, so outside demo mode nothing is counted and every request answers not found.
-  before_action :require_demo_mode
+  # Prepended so it runs before the CSRF check and the limit: outside demo mode nothing is counted and every
+  # request, tokenless POSTs included, answers not found.
+  prepend_before_action :require_demo_mode
   rate_limit to: 10, within: 1.hour, store: RATE_LIMIT_STORE, only: :create, with: lambda {
     redirect_to new_user_session_path, alert: "Creaste demasiadas cuentas de prueba. Vuelve a intentarlo en una hora."
   }

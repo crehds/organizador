@@ -104,9 +104,9 @@ Railway builds the app with Railpack, which detects Rails, installs the Node pac
    - `DATABASE_URL` = `${{Postgres.DATABASE_URL}}`
    - `DEMO_MODE` = `true`. Set it on the demo service before deploying a version that reads it: without it, production runs as a private installation and the live demo loses `/test`.
    - `DEMO_RESET_TOKEN` = a long random value, for example from `openssl rand -hex 32`
-3. In the service settings, set the pre-deploy command to `bin/rails db:prepare` and the health check path to `/up`.
+3. In the service settings, set the pre-deploy command to `bin/rails db:prepare demo:reset` and the health check path to `/up`. Every deploy then starts the demo clean, before the new version takes traffic: the teammates get new random passwords and the visitor accounts are deleted. This also matters when you upgrade an older demo whose accounts still have the public password "123456". Use this command only on the demo service: outside demo mode `demo:reset` aborts, and the deploy fails.
 4. Generate a public domain.
-5. Load the teammates once. Run it again after deploying this version over an older demo: the reset removes the old shared account and the teammates' public password.
+5. To restart the demo between deploys, call the reset endpoint:
 
    ```sh
    curl -X POST https://<your-domain>/demo/reset -H "Authorization: Bearer <DEMO_RESET_TOKEN>"

@@ -86,9 +86,16 @@ class TasksController < ApplicationController
   end
 
   # The server keeps the picker's demo rule: a participant outside it fails like one without a user.
-  # Forms send the participants as a hash keyed by index, JSON may send an array.
+  # Read the shapes like accepts_nested_attributes_for: an array, a hash keyed by index, or one hash with an id.
   def reject_other_visitors(participants)
-    (participants.respond_to?(:each_value) ? participants.each_value : Array(participants)).each do |participant|
+    records = if participants.respond_to?(:key?)
+                participants.key?(:id) ? [participants] : participants.values
+              else
+                Array(participants)
+              end
+    records.each do |participant|
+      next unless participant.respond_to?(:key?)
+
       participant[:user_id] = nil if participant.key?(:user_id) && !participant_choices.exists?(participant[:user_id])
     end
   end
