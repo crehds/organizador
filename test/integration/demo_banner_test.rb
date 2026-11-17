@@ -1,13 +1,17 @@
 require "test_helper"
 
-# /test signs visitors in as johan; the banner tells them so and lets them leave.
+# Visitors get a temporary account from "Probar el demo"; the banner tells them so and lets them leave.
 class DemoBannerTest < ActionDispatch::IntegrationTest
-  test "the demo user sees the banner with its sign out button and no sign-up button" do
-    sign_in users(:johan)
+  setup do
+    @visitor = create_visitor
+  end
+
+  test "a visitor sees the banner with its sign out button and no sign-up button" do
+    sign_in @visitor
 
     get tasks_path
 
-    assert_select ".demo-banner", text: /Estás en el demo/
+    assert_select ".demo-banner", count: 1
     assert_select ".demo-banner form[action=?]", destroy_user_session_path, count: 1
     assert_select ".demo-banner form[action=?] button", destroy_user_session_path, text: "Salir"
     assert_select ".demo-banner input[name=next]", count: 0
@@ -29,19 +33,20 @@ class DemoBannerTest < ActionDispatch::IntegrationTest
     assert_select ".demo-banner", count: 0
   end
 
-  test "Salir signs the demo user out and goes where sign out always went" do
-    sign_in users(:johan)
+  test "Salir signs the visitor out and goes where sign out always went" do
+    sign_in @visitor
 
     delete destroy_user_session_path
 
     assert_redirected_to root_path
     get tasks_path
     assert_redirected_to new_user_session_path
+    assert User.exists?(@visitor.id)
   end
 
   test "sign out forms carry a CSRF token and a tokenless sign out keeps the session" do
     ActionController::Base.allow_forgery_protection = true
-    sign_in users(:johan)
+    sign_in @visitor
     get tasks_path
 
     assert_select ".demo-banner form input[name=authenticity_token]", count: 1

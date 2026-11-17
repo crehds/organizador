@@ -21,25 +21,4 @@ class AuthenticationTest < ActionDispatch::IntegrationTest
     get tasks_path
     assert_redirected_to new_user_session_path
   end
-
-  test "the demo login signs in as the demo user" do
-    task = create_task
-
-    get "/test"
-    assert_redirected_to tasks_path
-
-    follow_redirect!
-    assert_response :success
-    assert_includes response.body, task.name
-  end
-
-  test "the demo login shows a message when the demo user is missing" do
-    users(:johan).destroy!
-
-    get "/test"
-    assert_redirected_to new_user_session_path
-
-    follow_redirect!
-    assert_select "#flash_alert", "The demo is not available right now."
-  end
 end

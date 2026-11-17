@@ -12,8 +12,10 @@
 #  updated_at             :datetime         not null
 #
 class User < ApplicationRecord
-  # /test signs every visitor in as this user, which db/seeds.rb creates.
-  DEMO_EMAIL = "johan@tasker.com".freeze
+  # "Probar el demo" gives each visitor an account under this domain; .invalid is reserved and receives no mail.
+  VISITOR_DOMAIN = "visitante.invalid".freeze
+  # Fictitious participants of the visitors' sample tasks; db/seeds.rb gives them random passwords nobody knows.
+  TEAMMATE_EMAILS = %w[juan andrea leon andres natalia camilo rusbel].map { |name| "#{name}@tasker.com" }.freeze
 
   # No :registerable (accounts come from `bin/rails users:create`) and no :recoverable (production sends no mail),
   # so Devise draws no sign up or password reset routes. Others available are:
@@ -23,8 +25,11 @@ class User < ApplicationRecord
   has_many :tasks, through: :participations
   has_many :categories, dependent: :restrict_with_exception
 
-  # Only the demo installation shares this account; in a private one the same email is an ordinary user.
-  def demo?
-    Rails.configuration.x.demo_mode && email == DEMO_EMAIL
+  scope :visitors, -> { where("email LIKE ?", "%@#{VISITOR_DOMAIN}") }
+  scope :teammates, -> { where(email: TEAMMATE_EMAILS) }
+
+  # Only the demo creates visitors; in a private installation the same email is an ordinary user.
+  def visitor?
+    Rails.configuration.x.demo_mode && email.end_with?("@#{VISITOR_DOMAIN}")
   end
 end

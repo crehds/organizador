@@ -15,7 +15,7 @@ class SignInPageTest < ActionDispatch::IntegrationTest
       get path
 
       assert_select "h1", "Organizador"
-      assert_select "a[href=?]", "/test", text: "Probar el demo"
+      assert_select "form[action=?] button", "/test", text: "Probar el demo"
       assert_includes response.body, "cuenta compartida"
       assert_select "form[action=?]", user_session_path
     end

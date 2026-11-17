@@ -9,7 +9,7 @@
     = stylesheet_link_tag "application", "data-turbo-track": "reload", defer: true
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
   %body
-    - if current_user&.demo?
+    - if current_user&.visitor?
       = render "layouts/demo_banner"
     = render "layouts/navbar" if user_signed_in?
     .container.mt-4.pb-4

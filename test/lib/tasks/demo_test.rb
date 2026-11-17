@@ -9,13 +9,14 @@ class DemoTaskTest < ActiveSupport::TestCase
     Rake::Task["demo:reset"].reenable
   end
 
-  test "demo:reset reloads the demo data" do
+  test "demo:reset deletes everything and reloads only the teammates" do
     visitor = User.create!(email: "visitor@example.com", password: "123456")
 
     output, = capture_io { Rake::Task["demo:reset"].invoke }
 
     assert_not User.exists?(visitor.id)
-    assert_equal [8, 4, 29], [User.count, Category.count, Task.count]
+    assert_equal [7, 0, 0], [User.count, Category.count, Task.count]
+    assert_equal User::TEAMMATE_EMAILS.sort, User.pluck(:email).sort
     assert_match "Demo data has been reset.", output
   end
 

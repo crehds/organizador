@@ -19,6 +19,11 @@ module ActiveSupport
       )
     end
 
+    # A demo visitor with a known password; "Probar el demo" gives real visitors a random one nobody sees.
+    def create_visitor
+      User.create!(email: "visitante-prueba@#{User::VISITOR_DOMAIN}", password: "123456")
+    end
+
     # The app reads DEMO_MODE at request time, so a test can switch it and restore it afterwards.
     def with_demo_mode(enabled)
       previous = Rails.configuration.x.demo_mode

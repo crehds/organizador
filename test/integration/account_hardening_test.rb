@@ -38,14 +38,15 @@ class AccountHardeningTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "the demo account cannot change its password through JSON either" do
-    sign_in users(:johan)
+  test "a visitor cannot change the password through JSON either" do
+    visitor = create_visitor
+    sign_in visitor
 
     put "/users",
         params: { user: { password: NEW_PASSWORD, password_confirmation: NEW_PASSWORD, current_password: "123456" } },
         as: :json
 
-    assert users(:johan).reload.valid_password?("123456")
+    assert visitor.reload.valid_password?("123456")
   end
 
   test "a password update without a CSRF token is rejected" do

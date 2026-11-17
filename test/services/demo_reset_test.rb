@@ -9,15 +9,15 @@ class DemoResetTest < ActiveSupport::TestCase
     @task.notes.create!(user: @visitor, body: "Hola")
   end
 
-  test "deletes what visitors left and reloads the demo data" do
+  test "deletes what visitors left and reloads only the teammates" do
     capture_io { DemoReset.call }
 
     assert_not User.exists?(@visitor.id)
     assert_not Category.exists?(@category.id)
     assert_not Task.exists?(@task.id)
     assert_equal 0, Note.count
-    assert_equal [8, 4, 29], [User.count, Category.count, Task.count]
-    assert User.exists?(email: "johan@tasker.com")
+    assert_equal [7, 0, 0], [User.count, Category.count, Task.count]
+    assert_equal User::TEAMMATE_EMAILS.sort, User.pluck(:email).sort
   end
 
   test "outside demo mode it refuses before deleting anything" do
@@ -49,15 +49,15 @@ class DemoResetTest < ActiveSupport::TestCase
     end
     before = rows.call
     calls = 0
-    original = Task.method(:create!)
+    original = User.method(:find_or_initialize_by)
     failing = lambda do |*args, **kwargs, &block|
       calls += 1
-      raise "seed failed at task #{calls}" if calls == 10
+      raise "seed failed at teammate #{calls}" if calls == 4
 
       original.call(*args, **kwargs, &block)
     end
 
-    Task.stub(:create!, failing) { assert_raises(RuntimeError) { capture_io { DemoReset.call } } }
+    User.stub(:find_or_initialize_by, failing) { assert_raises(RuntimeError) { capture_io { DemoReset.call } } }
 
     assert_equal before, rows.call
     assert_not User.exists?(email: "andrea@tasker.com")

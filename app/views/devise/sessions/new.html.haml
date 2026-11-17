@@ -8,7 +8,7 @@
       Nació como el proyecto de dos cursos de Platzi sobre Ruby on Rails (básico e intermedio).
       Después se actualizó a Rails 8.1, se cubrió con tests y se desplegó en Railway.
     .d-flex.flex-wrap.align-items-center.gap-3
-      = link_to "Probar el demo", test_path, class: "btn btn-primary btn-lg"
+      = button_to "Probar el demo", test_path, class: "btn btn-primary btn-lg", form: { data: { turbo: false } }
       %span.small.text-muted El demo entra sin contraseña a una cuenta compartida.
     %ul.list-inline.mt-4
       - ["Ruby 3.4", "Rails 8.1", "PostgreSQL", "Hotwire", "Bootstrap 5", "Devise", "CanCanCan"].each do |tool|

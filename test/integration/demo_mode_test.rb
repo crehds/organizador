@@ -28,18 +28,18 @@ class DemoModeTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
-  test "the sign in page links to the demo only in demo mode" do
+  test "the sign in page offers the demo only in demo mode" do
     get new_user_session_path
-    assert_select "a[href=?]", "/test"
+    assert_select "form[action=?][method=post] button", "/test", text: "Probar el demo"
 
     with_demo_mode(false) { get new_user_session_path }
 
     assert_response :success
-    assert_select "a[href=?]", "/test", count: 0
+    assert_select "form[action=?], a[href=?]", "/test", "/test", count: 0
   end
 
-  test "outside demo mode the demo email is an ordinary account: no banner and the account page opens" do
-    sign_in users(:johan)
+  test "outside demo mode a visitor email is an ordinary account: no banner and the account page opens" do
+    sign_in create_visitor
 
     with_demo_mode(false) do
       get tasks_path

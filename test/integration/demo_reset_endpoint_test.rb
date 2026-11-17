@@ -104,6 +104,7 @@ class DemoResetEndpointTest < ActionDispatch::IntegrationTest
 
     assert_response :no_content
     assert_not User.exists?(@visitor.id)
-    assert_equal [8, 4, 29], [User.count, Category.count, Task.count]
+    assert_equal [7, 0, 0], [User.count, Category.count, Task.count]
+    assert_equal User::TEAMMATE_EMAILS.sort, User.pluck(:email).sort
   end
 end

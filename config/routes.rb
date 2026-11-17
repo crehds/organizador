@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   devise_for :users
 
   devise_scope :user do
+    # "Probar el demo" posts here; old GET links land on the sign-in page.
     get "test", to: "users/tests#new"
+    post "test", to: "users/tests#create"
     # The account page, where users change their password; there is no sign up or cancellation.
     resource :registration, only: %i[edit update], path: "users", controller: "users/registrations",
                             as: :user_registration

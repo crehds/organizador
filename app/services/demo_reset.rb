@@ -1,4 +1,4 @@
-# Deletes every record, visitor accounts included, and reloads the demo data from db/seeds.rb.
+# Deletes every record, visitor accounts included, and reloads the teammates from db/seeds.rb.
 # Outside demo mode it refuses before deleting anything, because a private installation holds real data.
 class DemoReset
   class Disabled < StandardError; end

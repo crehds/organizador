@@ -6,11 +6,23 @@ class SeedsTest < ActiveSupport::TestCase
     [Note, Participant, Task, Category, User].each(&:delete_all)
   end
 
-  test "in demo mode the seeds load the demo data" do
+  test "in demo mode the seeds create only the teammates, with random passwords nobody knows" do
     capture_io { Rails.application.load_seed }
 
-    assert_equal [8, 4, 29], [User.count, Category.count, Task.count]
-    assert User.exists?(email: User::DEMO_EMAIL)
+    assert_equal [7, 0, 0], [User.count, Category.count, Task.count]
+    assert_equal User::TEAMMATE_EMAILS.sort, User.pluck(:email).sort
+    assert_not User.exists?(email: "johan@tasker.com")
+    assert_equal 7, User.distinct.count(:encrypted_password)
+    User.find_each { |user| assert_not user.valid_password?("123456"), user.email }
+  end
+
+  test "running the seeds again gives existing teammates a new random password" do
+    juan = User.create!(email: "juan@tasker.com", password: "123456")
+
+    capture_io { Rails.application.load_seed }
+
+    assert_equal 7, User.count
+    assert_not juan.reload.valid_password?("123456")
   end
 
   test "outside demo mode the seeds create nothing and print one line saying why" do
