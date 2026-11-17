@@ -47,7 +47,12 @@ class DemoSandbox
       raise Disabled, "Demo mode is off (DEMO_MODE is not \"true\"), so no visitor was deleted or created."
     end
 
-    delete_expired_visitors
+    begin
+      delete_expired_visitors
+    rescue ActiveRecord::ActiveRecordError => e
+      # A failed cleanup must not keep a new visitor out; the next press tries again.
+      Rails.logger.error("Demo cleanup failed: #{e.class}: #{e.message}")
+    end
     create_visitor
   end
 

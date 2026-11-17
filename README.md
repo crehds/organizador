@@ -24,6 +24,7 @@ The same code runs the public demo and private installations with real data, eac
 | Demo banner | Shown to visitors | Not shown |
 | Categories | Each user sees and uses only their own | Shared by every user |
 | Task participants | Only the fictitious teammates, never another visitor | Any other user |
+| Password sign-in (`POST /users/sign_in`) | Answers like a missing route, so accounts left from an older demo with the public seed password cannot be used | Devise's sign-in |
 | Account page (`/users/edit`) | Locked for every account: visitors never know their random password | Each user changes their own password |
 | `db:seed` and `db:prepare` | Create the fictitious teammates with random passwords | Print one line and create nothing, so a new database stays empty |
 | Demo reset (`demo:reset`, `POST /demo/reset`) | Deletes everything and reloads the teammates | `demo:reset` aborts, the endpoint answers like a missing route, nothing is deleted |

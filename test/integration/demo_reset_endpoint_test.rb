@@ -81,8 +81,11 @@ class DemoResetEndpointTest < ActionDispatch::IntegrationTest
     assert_response :not_found
 
     ENV["DEMO_RESET_TOKEN"] = TOKEN
-    # A real sign-in; the sign_in test helper would write the session cookie on the next request itself.
-    post user_session_path, params: { user: { email: "johan@tasker.com", password: "123456" } }
+    # A real sign-in, which only a private installation offers; the sign_in test helper would write the session
+    # cookie on the next request itself.
+    with_demo_mode(false) do
+      post user_session_path, params: { user: { email: "johan@tasker.com", password: "123456" } }
+    end
     post "/demo/reset"
 
     assert_response :unauthorized

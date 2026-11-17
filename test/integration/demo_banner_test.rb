@@ -12,7 +12,7 @@ class DemoBannerTest < ActionDispatch::IntegrationTest
     get tasks_path
 
     assert_select ".demo-banner", count: 1
-    assert_select ".demo-banner p", text: SignInPageTest::NOTICE
+    assert_select ".demo-banner p", text: DEMO_NOTICE
     assert_select ".demo-banner form[action=?]", destroy_user_session_path, count: 1
     assert_select ".demo-banner form[action=?] button", destroy_user_session_path, text: "Salir"
     assert_select ".demo-banner input[name=next]", count: 0

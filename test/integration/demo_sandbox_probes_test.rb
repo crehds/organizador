@@ -1,7 +1,8 @@
 require "test_helper"
+require "minitest/mock"
 
-# Regression tests from the independent verification of the one-click demo.
-class DemoSandboxProbesTest < ActionDispatch::IntegrationTest
+# Regression tests from the independent verification and the review of the one-click demo.
+class DemoSandboxProbesTest < ActionDispatch::IntegrationTest # rubocop:disable Metrics/ClassLength
   setup do
     Users::TestsController::RATE_LIMIT_STORE.clear
     capture_io { Rails.application.load_seed }
@@ -96,6 +97,33 @@ class DemoSandboxProbesTest < ActionDispatch::IntegrationTest
 
     assert_response :not_found
     assert_equal before, theirs.reload.attributes
+  end
+
+  test "a failed cleanup is logged and the new visitor still gets an account" do
+    failing_cleanup = -> { raise ActiveRecord::InvalidForeignKey, "a row still points at an expired visitor" }
+    logged = StringIO.new
+    previous_logger = Rails.logger
+    Rails.logger = ActiveSupport::Logger.new(logged)
+
+    DemoSandbox.stub(:delete_expired_visitors, failing_cleanup) do
+      assert_difference(-> { User.visitors.count } => 1) { post "/test" }
+    end
+
+    assert_redirected_to tasks_path
+    assert_match "a row still points at an expired visitor", logged.string
+  ensure
+    Rails.logger = previous_logger
+  end
+
+  test "the demo reset also removes the accounts and categories the sandbox created" do
+    visitor = DemoSandbox.call
+
+    capture_io { DemoReset.call }
+
+    assert_not User.exists?(visitor.id)
+    assert_equal 0, User.visitors.count
+    assert_equal [0, 0], [Category.count, Task.count]
+    assert_equal User::TEAMMATE_EMAILS.sort, User.pluck(:email).sort
   end
 
   test "cleanup removes visitors just past 24 hours and keeps those just under" do

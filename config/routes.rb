@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # Sign in and sign out only (see the Devise modules in User): accounts come from `bin/rails users:create`.
-  devise_for :users
+  devise_for :users, controllers: { sessions: "users/sessions" }
 
   devise_scope :user do
     # "Probar el demo" posts here; old GET links land on the sign-in page.
@@ -26,6 +26,6 @@ Rails.application.routes.draw do
     root "tasks#index", as: :authenticated_root
   end
   devise_scope :user do
-    root "devise/sessions#new"
+    root "users/sessions#new"
   end
 end

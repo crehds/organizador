@@ -40,12 +40,12 @@ class DemoAccountTest < ActionDispatch::IntegrationTest
     assert_equal before, @visitor.reload.attributes
   end
 
-  test "signing in with odd email casing does not get around the guard" do
+  test "a password sign-in with odd email casing does not exist in demo mode either" do
     post user_session_path, params: { user: { email: " #{@visitor.email.upcase} ", password: "123456" } }
 
+    assert_response :not_found
     get edit_user_registration_path
-
-    assert_redirected_to root_path
+    assert_redirected_to new_user_session_path
   end
 
   test "in demo mode every account is locked, teammates and other users included" do

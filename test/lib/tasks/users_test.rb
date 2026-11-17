@@ -21,7 +21,9 @@ class UsersTaskTest < ActionDispatch::IntegrationTest
     assert_operator password.length, :>=, 16
     assert_equal 1, output.scan(password).size
     assert_match "the user can change it at /users/edit", output
-    post user_session_path, params: { user: { email: "nueva@example.com", password: } }
+    with_demo_mode(false) do
+      post user_session_path, params: { user: { email: "nueva@example.com", password: } }
+    end
     get tasks_path
     assert_response :success
   end

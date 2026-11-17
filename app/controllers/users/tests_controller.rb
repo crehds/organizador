@@ -22,7 +22,8 @@ class Users::TestsController < ApplicationController
   def create
     sign_in DemoSandbox.call
     redirect_to tasks_path
-  rescue DemoSandbox::Unavailable
+  rescue DemoSandbox::Unavailable => e
+    Rails.logger.error(e.message)
     redirect_to new_user_session_path, alert: "El demo no está disponible en este momento."
   end
 

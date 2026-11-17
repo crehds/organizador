@@ -3,8 +3,6 @@ require "test_helper"
 # Guests land on the sign-in page at the root. In demo mode it is only the demo entry; a private installation shows
 # only the form.
 class SignInPageTest < ActionDispatch::IntegrationTest
-  NOTICE = "Es un demo: tu cuenta es temporal y se borra a las 24 horas. " \
-           "Si cierras sesión o el navegador, no podrás volver a entrar.".freeze
   LINE = "Un organizador de tareas: cada tarea tiene una categoría, una fecha de vencimiento, un creador y " \
          "participantes, y admite notas que aparecen sin recargar la página.".freeze
 
@@ -14,7 +12,7 @@ class SignInPageTest < ActionDispatch::IntegrationTest
 
       assert_response :success
       assert_select ".demo-banner.alert-warning", count: 1
-      assert_select ".demo-banner p", text: NOTICE
+      assert_select ".demo-banner p", text: DEMO_NOTICE
       assert_select ".demo-banner form", count: 0
       assert_select "p.text-muted", count: 1
       assert_select "p.text-muted", text: LINE

@@ -6,6 +6,10 @@ module ActiveSupport
   class TestCase
     fixtures :all
 
+    # The demo notice on the sign-in page and the app banner (S7).
+    DEMO_NOTICE = "Es un demo: tu cuenta es temporal y se borra a las 24 horas. " \
+                  "Si cierras sesión o el navegador, no podrás volver a entrar.".freeze
+
     # Built here, not as fixtures: loading fixtures with foreign keys needs a PostgreSQL superuser.
     def create_task(name: "Tarea #1", owner: users(:johan), participant: users(:juan),
                     category: categories(:desarrollo))
