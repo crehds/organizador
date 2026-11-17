@@ -18,7 +18,8 @@ $card-inner-border-radius: 1rem
 @import 'bootstrap/scss/bootstrap'
 @import 'bootstrap-icons/font/bootstrap-icons'
 
-$fa-font-path: '/assets'
+// A "./" url lets Sprockets swap in the fingerprinted font; "/assets/..." stays as is and 404s in production.
+$fa-font-path: '.'
 @import '@fortawesome/fontawesome-free/scss/fontawesome'
 @import '@fortawesome/fontawesome-free/scss/brands'
 @import '@fortawesome/fontawesome-free/scss/solid'
