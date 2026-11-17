@@ -1,8 +1,7 @@
 .category.new-page
-  .card
+  .page-header
+    %h1.page-title Nueva categoría
+    = link_to t("common.back"), categories_path, class: "btn btn-link"
+  .card.form-card
     .card-body
-      %h2 Nueva Categoría
-
       = render "form"
-
-      = link_to t("common.back"), categories_path, class: "btn-interaction"

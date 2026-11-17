@@ -1,12 +1,13 @@
 .category.show-page
+  .page-header
+    %div
+      %p.page-kicker Categoría
+      %h1.page-title= @category.name
+    .d-flex.gap-2
+      = link_to t("common.back"), categories_path, class: "btn btn-link"
+      = link_to t("common.edit"), edit_category_path(@category), class: "btn btn-outline-primary"
   .card
     .card-body
-      %p
-        %b Nombre:
-        = @category.name
-      %p
-        %b Descripción:
-        = @category.description
-      = link_to t("common.edit"), edit_category_path(@category), class: "btn-interaction"
-      \|
-      = link_to t("common.back"), categories_path, class: "btn-interaction"
+      %dl.facts
+        %dt Descripción
+        %dd= @category.description.presence || "Sin descripción"

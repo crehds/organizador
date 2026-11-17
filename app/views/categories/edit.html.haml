@@ -1,9 +1,11 @@
 .category.edit-page
-  .card
+  .page-header
+    %div
+      %p.page-kicker= @category.name
+      %h1.page-title Editar categoría
+    .d-flex.gap-2
+      = link_to t("common.back"), categories_path, class: "btn btn-link"
+      = link_to t("common.show"), @category, class: "btn btn-outline-primary"
+  .card.form-card
     .card-body
-      %h2 Editando categoría
-
       = render "form"
-      = link_to t("common.show"), @category, class: "btn-interaction"
-      \|
-      = link_to t("common.back"), categories_path, class: "btn-interaction"

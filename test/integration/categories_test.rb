@@ -19,6 +19,13 @@ class CategoriesTest < ActionDispatch::IntegrationTest
     assert_includes response.body, categories(:desarrollo).name
   end
 
+  test "the list links each category and offers the new category button in the page header" do
+    get categories_path
+
+    assert_select "td a[href=?]", category_path(categories(:desarrollo)), text: categories(:desarrollo).name
+    assert_select ".page-header a[href=?]", new_category_path, text: "Nueva categoría"
+  end
+
   test "creates a category" do
     assert_difference -> { Category.count } => 1 do
       post categories_path, params: { category: { name: "design", description: "UI work" } }
