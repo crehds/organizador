@@ -4,28 +4,48 @@ es:
     models:
       category:
         one: Categoría
-        others: Categorías
+        other: Categorías
+      note:
+        one: Nota
+        other: Notas
+      task:
+        one: Tarea
+        other: Tareas
+    attributes:
+      category:
+        description: Descripción
+        name: Nombre
+      note:
+        body: Nota
+      participant:
+        role: Rol
+        user: Usuario
+      task:
+        category: Categoría
+        description: Descripción
+        due_date: Fecha de vencimiento
+        name: Nombre
   categories:
     form:
       description: Descripción
       name: Nombre
-    new_category: Nueva Categoría
+    new_category: Nueva categoría
   common:
-    are_you_sure: Are you sure
-    back: Back
-    destroy: Destroy
-    edit: Edit
-    show: Show
-  errors:
-    messages:
-      not_saved: Not saved
-  frecuentes:
-    are_you_sure: Estás seguro
-    back: Atrás
+    are_you_sure: "¿Seguro?"
+    back: Volver
     destroy: Eliminar
     edit: Editar
-    show: Mostrar
-  hello: Hello world
+    show: Ver
+  participant:
+    roles:
+      follower: Seguidor
+      responsable: Responsable
+  simple_form:
+    error_notification:
+      default_message: "Revisa los campos marcados:"
+    required:
+      mark: "*"
+      text: obligatorio
   task:
     errors:
       invalid:

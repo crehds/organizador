@@ -11,7 +11,7 @@ class TaskTest < ActiveSupport::TestCase
         repeated = Task.new(name: name.upcase, description: "--", category: categories(:desarrollo),
                             owner: users(:johan), participating_users: [Participant.new(user: users(:juan))])
         assert_not repeated.valid?, "demo=#{demo}"
-        assert_includes repeated.errors[:name], "has already been taken"
+        assert repeated.errors.added?(:name, :taken, value: name.upcase), "demo=#{demo}"
       end
     end
   end

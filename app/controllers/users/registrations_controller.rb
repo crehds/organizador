@@ -12,7 +12,7 @@ module Users
     end
 
     def protect_demo_accounts
-      redirect_to root_path, alert: "Demo accounts cannot be changed." if demo_mode?
+      redirect_to root_path, alert: "Las cuentas del demo no se pueden cambiar." if demo_mode?
     end
   end
 end

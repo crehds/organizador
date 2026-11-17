@@ -9,7 +9,7 @@ class TaskFormTest < ActionDispatch::IntegrationTest
     get new_task_path
 
     assert_select "select#task_category_id[required]"
-    assert_select "label[for=task_category_id] abbr[title=required]", text: "*"
+    assert_select "label[for=task_category_id] abbr[title=obligatorio]", text: "*"
   end
 
   test "a task without a category is rejected" do

@@ -78,7 +78,7 @@ class TasksTest < ActionDispatch::IntegrationTest # rubocop:disable Metrics/Clas
     end
 
     assert_redirected_to new_task_path
-    assert_equal "participants cant be repeated in the same task", flash[:alert]
+    assert_equal "Un participante no puede repetirse en la misma tarea.", flash[:alert]
   end
 
   test "the owner edits a task" do

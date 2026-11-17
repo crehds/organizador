@@ -29,6 +29,9 @@ module Organizador
     # in config/environments, which are processed later.
     #
     # config.time_zone = "Central Time (US & Canada)"
+
+    # The interface is written in Spanish only, so dates and messages follow it whatever the browser asks for.
+    config.i18n.default_locale = :es
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Don't generate system test files.

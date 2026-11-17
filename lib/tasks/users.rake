@@ -4,7 +4,9 @@ namespace :users do
     password = SecureRandom.alphanumeric(16)
     user = User.new(email: ENV.fetch("EMAIL", nil), password:)
     unless user.save
-      abort "Could not create the user: #{user.errors.full_messages.to_sentence}. " \
+      # The app speaks Spanish; this operator command speaks English, so its errors follow.
+      messages = I18n.with_locale(:en) { user.errors.full_messages.to_sentence }
+      abort "Could not create the user: #{messages}. " \
             "Usage: bin/rails users:create EMAIL=someone@example.com"
     end
 

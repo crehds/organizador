@@ -1,6 +1,4 @@
 class ApplicationController < ActionController::Base
-  include Language
-
   before_action :authenticate_user!
   before_action :turbo_frame_request_variant
   helper_method :demo_mode?, :visible_categories
@@ -14,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from ActiveRecord::RecordNotUnique do |_exception|
-    flash[:alert] = "participants cant be repeated in the same task"
+    flash[:alert] = "Un participante no puede repetirse en la misma tarea."
     redirect_to new_task_path
   end
 

@@ -1,11 +1,11 @@
-%h2 Change your password
+%h2.entry-heading Cambiar contraseña
 %p.text-muted= resource.email
 = simple_form_for(resource, as: resource_name, url: user_registration_path, html: { method: :put }) do |f|
   = f.error_notification
   .form-inputs
-    = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), input_html: { autocomplete: "new-password" }
-    = f.input :password_confirmation, required: true, input_html: { autocomplete: "new-password" }
-    = f.input :current_password, hint: "we need your current password to confirm your changes", required: true, input_html: { autocomplete: "current-password" }
-  .form-actions
-    = f.button :submit, "Update"
-= link_to "Back", :back
+    = f.input :password, label: "Nueva contraseña", required: true, hint: ("Mínimo #{@minimum_password_length} caracteres" if @minimum_password_length), input_html: { autocomplete: "new-password" }
+    = f.input :password_confirmation, label: "Repite la nueva contraseña", required: true, input_html: { autocomplete: "new-password" }
+    = f.input :current_password, label: "Contraseña actual", hint: "La necesitamos para confirmar el cambio.", required: true, input_html: { autocomplete: "current-password" }
+  = f.button :submit, "Guardar", class: "btn btn-primary w-100 mt-2"
+.mt-3.text-center
+  = link_to "Volver a las tareas", root_path

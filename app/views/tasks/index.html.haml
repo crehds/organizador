@@ -14,7 +14,7 @@
               .task-description= task.description
               .task-dates
                 %b= task.owner.email
-                = "creado el #{l task.created_at, format: :long} / vence el #{task.due_date}"
+                = "creado el #{l task.created_at, format: :long} / vence el #{l task.due_date, format: :long}"
             .task-interactions
               .task-participants
                 - task.participating_users.each do |participant|

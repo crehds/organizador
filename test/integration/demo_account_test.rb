@@ -2,7 +2,7 @@ require "test_helper"
 
 # In demo mode visitors never know their password and the teammates are fictitious, so no account can change.
 class DemoAccountTest < ActionDispatch::IntegrationTest
-  ALERT = "Demo accounts cannot be changed.".freeze
+  ALERT = "Las cuentas del demo no se pueden cambiar.".freeze
 
   setup do
     @visitor = create_visitor
