@@ -22,7 +22,7 @@ class Task < ApplicationRecord
   validates :participating_users, presence: true
 
   validates :name, :description, presence: true
-  validates :name, uniqueness: { case_sensitive: false }
+  validates :name, uniqueness: { case_sensitive: false, scope: :owner_id }
   validate :due_date_validity
 
   before_create :create_code
