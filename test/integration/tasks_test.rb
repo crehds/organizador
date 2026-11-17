@@ -1,7 +1,9 @@
 require "test_helper"
 
-class TasksTest < ActionDispatch::IntegrationTest
+class TasksTest < ActionDispatch::IntegrationTest # rubocop:disable Metrics/ClassLength
   setup do
+    # In demo mode a task may only use one of its owner's categories.
+    categories(:desarrollo).update!(user: users(:johan))
     @task = create_task
   end
 

@@ -15,10 +15,11 @@ class DeleteControlsTest < ActionDispatch::IntegrationTest
   end
 
   test "deleting a category asks for confirmation and sends a DELETE" do
+    category = Category.create!(name: "propia", description: "--", user: users(:johan))
+
     get categories_path
 
-    assert_select "form[action=?][data-turbo-confirm] input[name=_method][value=delete]",
-                  category_path(categories(:desarrollo))
+    assert_select "form[action=?][data-turbo-confirm] input[name=_method][value=delete]", category_path(category)
   end
 
   test "signing out sends a DELETE that signs the user out" do

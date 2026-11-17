@@ -1,8 +1,15 @@
 require "test_helper"
 
+# Shared categories, as a private installation keeps them; CategoryOwnershipTest covers demo mode.
 class CategoriesTest < ActionDispatch::IntegrationTest
   setup do
+    @previous_demo_mode = Rails.configuration.x.demo_mode
+    Rails.configuration.x.demo_mode = false
     sign_in users(:johan)
+  end
+
+  teardown do
+    Rails.configuration.x.demo_mode = @previous_demo_mode
   end
 
   test "lists categories" do

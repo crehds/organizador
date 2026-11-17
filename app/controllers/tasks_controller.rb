@@ -69,11 +69,12 @@ class TasksController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def task_params
-    params.require(:task).permit(:name, :description, :due_date, :category_id, participating_users_attributes: %i[
-                                   user_id
-                                   role
-                                   id
-                                   _destroy
-                                 ])
+    permitted = params.require(:task).permit(:name, :description, :due_date, :category_id,
+                                             participating_users_attributes: %i[user_id role id _destroy])
+    # A crafted request must not reach a category the user cannot see: the task then fails like one without a category.
+    if permitted.key?(:category_id) && !visible_categories.exists?(permitted[:category_id])
+      permitted[:category_id] = nil
+    end
+    permitted
   end
 end

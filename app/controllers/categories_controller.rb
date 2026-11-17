@@ -3,7 +3,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories or /categories.json
   def index
-    @categories = Category.all
+    @categories = visible_categories
   end
 
   # GET /categories/1 or /categories/1.json
@@ -12,7 +12,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories/new
   def new
-    @category = Category.new
+    @category = visible_categories.new
   end
 
   # GET /categories/1/edit
@@ -21,7 +21,7 @@ class CategoriesController < ApplicationController
 
   # POST /categories or /categories.json
   def create
-    @category = Category.new(category_params)
+    @category = visible_categories.new(category_params)
 
     respond_to do |format|
       if @category.save
@@ -63,7 +63,8 @@ class CategoriesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_category
-      @category = Category.find(params[:id])
+      # Another visitor's category is not found, like a missing one.
+      @category = visible_categories.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

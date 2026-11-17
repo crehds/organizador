@@ -7,12 +7,13 @@ module ActiveSupport
     fixtures :all
 
     # Built here, not as fixtures: loading fixtures with foreign keys needs a PostgreSQL superuser.
-    def create_task(name: "Tarea #1", owner: users(:johan), participant: users(:juan))
+    def create_task(name: "Tarea #1", owner: users(:johan), participant: users(:juan),
+                    category: categories(:desarrollo))
       Task.create!(
         name:,
         description: "Bienvenida",
         due_date: Date.current + 15,
-        category: categories(:desarrollo),
+        category:,
         owner:,
         participating_users: [Participant.new(user: participant, role: :responsable)]
       )
@@ -32,5 +33,8 @@ end
 module ActionDispatch
   class IntegrationTest
     include Devise::Test::IntegrationHelpers
+
+    # Devise 4.9.3 builds its mappings while the routes load, which Rails 8 defers; sign_in needs them first.
+    setup { Rails.application.reload_routes_unless_loaded }
   end
 end

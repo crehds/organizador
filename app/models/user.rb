@@ -21,6 +21,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :rememberable, :validatable
   has_many :participations, class_name: "Participant"
   has_many :tasks, through: :participations
+  has_many :categories, dependent: :restrict_with_exception
 
   # Only the demo installation shares this account; in a private one the same email is an ordinary user.
   def demo?
