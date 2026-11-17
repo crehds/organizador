@@ -115,6 +115,39 @@ class DemoSandboxProbesTest < ActionDispatch::IntegrationTest # rubocop:disable 
     Rails.logger = previous_logger
   end
 
+  test "a real foreign-key failure in the cleanup rolls back every delete and the visitor still gets an account" do
+    expired = DemoSandbox.call
+    other = DemoSandbox.call
+    expired.update!(created_at: 25.hours.ago)
+    # A row the app never writes: another visitor's task pointing at the expired visitor's category.
+    Task.where(owner: other).limit(1).update_all(category_id: expired.categories.first.id) # rubocop:disable Rails/SkipsModelValidations
+    tasks = Task.where(owner: expired).select(:id)
+    counts = lambda {
+      [Task.where(owner: expired).count, Participant.where(task_id: tasks).count, Category.where(user: expired).count]
+    }
+    before = counts.call
+
+    assert_difference(-> { User.visitors.count } => 1) { post "/test" }
+
+    assert_redirected_to tasks_path
+    assert User.exists?(expired.id)
+    assert_equal before, counts.call
+  end
+
+  test "a missing-teammates outage is logged" do
+    logged = StringIO.new
+    previous_logger = Rails.logger
+    Rails.logger = ActiveSupport::Logger.new(logged)
+
+    User.stub(:teammates, User.none) { post "/test" }
+
+    assert_redirected_to new_user_session_path
+    assert_equal "El demo no está disponible en este momento.", flash[:alert]
+    assert_match "The teammates are missing; run bin/rails demo:reset.", logged.string
+  ensure
+    Rails.logger = previous_logger
+  end
+
   test "the demo reset also removes the accounts and categories the sandbox created" do
     visitor = DemoSandbox.call
 
