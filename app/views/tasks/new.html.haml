@@ -1,8 +1,7 @@
 .tasks.new-page
+  .page-header
+    %h1.page-title Nueva tarea
+    = link_to t("common.back"), tasks_path, class: "btn btn-link"
   .card
     .card-body
-      %h2 Nueva Tarea
-
       = render "form"
-
-      = link_to t("common.back"), tasks_path, class: "btn-interaction"

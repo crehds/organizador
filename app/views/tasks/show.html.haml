@@ -1,50 +1,43 @@
 .tasks.show-page
-  .display-4.mt-3.mb-3
-    Tarea
-    %span.small= "[#{@task.code}]"
-  %h2 Información
-  .card
-    .card-body
-      .table-responsive
-        %table.table.table-striped.table-borderless
-          %thead
-            %tr
-              %th Código
-              %th Nombre
-              %th Categoría
-              %th Creador
-          %tbody
-            %tr
-              %td= @task.code
-              %td= @task.name
-              %td= @task.category.name
-              %td= @task.owner.email
-        %table.table.table-striped.table-borderless
-          %thead
-            %tr
-              %th Descripción
-          %tbody
-            %tr
-              %td.font-weight-light= @task.description
-      .task-participants
-        .task-participants-header
-          .font-weight-bold.text-uppercase= "Participantes"
-        - @task.participating_users.includes(:user).each do |participant|
-          .task-participant{ class: "task-participant--#{participant.role}" }
-            = avatar_for(participant.user, size: 50)
-      = link_to t("common.edit"), edit_task_path(@task)
-      \|
-      = link_to t("common.back"), tasks_path
-    %h2.mt-2.mb-2 Notas
-    .notes-container
+  .page-header
+    %div
+      %p.page-kicker.task-code= "Tarea #{@task.code}"
+      %h1.page-title= @task.name
+    .d-flex.gap-2
+      = link_to t("common.back"), tasks_path, class: "btn btn-link"
+      = link_to t("common.edit"), edit_task_path(@task), class: "btn btn-outline-primary"
+  .row.g-4
+    .col-lg-7
       .card
         .card-body
-          - if @task.notes.exists?
-            .notes#notes
-              - @task.notes.order(created_at: :asc).each do |note|
-                = render "tasks/notes/note", note: note
-          - else
-            .notes
+          %h2.section-title Información
+          %dl.facts
+            %dt Categoría
+            %dd= @task.category.name
+            %dt Creador
+            %dd= @task.owner.email
+            %dt Vence
+            %dd= l @task.due_date, format: :long
+            %dt Descripción
+            %dd= @task.description
+      .card.notes-container.mt-4
+        .card-body
+          %h2.section-title Notas
+          -# Always present, so the first note sent without reloading has a list to join.
+          .notes#notes
+            - @task.notes.order(created_at: :asc).each do |note|
+              = render "tasks/notes/note", note: note
+          %p.notes-empty Todavía no hay notas.
           - if can? :add_notes, @task
-            = simple_form_for Note.new, url: task_notes_path(task_id: @task.id), html: { data: { controller: 'reset-form', action: "turbo:submit-end->reset-form#reset" } }, remote: true do |f|
-              = f.input :body, label: false, placeholder: "Escriba una nota", as: :string, input_html: { autocomplete: :off }
+            = simple_form_for Note.new, url: task_notes_path(task_id: @task.id), html: { class: "mt-3", data: { controller: 'reset-form', action: "turbo:submit-end->reset-form#reset" } }, remote: true do |f|
+              = f.input :body, label: false, placeholder: "Escribe una nota y pulsa Enter", as: :string, input_html: { autocomplete: :off, "aria-label" => "Nueva nota" }
+    .col-lg-5
+      .card
+        .card-body
+          %h2.section-title Participantes
+          %ul.participant-list.list-unstyled.mb-0
+            - @task.participating_users.includes(:user).each do |participant|
+              %li.task-participant{ class: "task-participant--#{participant.role}" }
+                = avatar_for(participant.user, size: 36)
+                %span.participant-email= participant.user.email
+                %span.badge.participant-role= t("participant.roles.#{participant.role}")

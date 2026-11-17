@@ -127,7 +127,7 @@ class TasksTest < ActionDispatch::IntegrationTest # rubocop:disable Metrics/Clas
 
     get task_path(@task)
 
-    assert_select "span.small", text: "[#{@task.code}]"
+    assert_select ".page-header .task-code", text: "Tarea #{@task.code}"
   end
 
   private

@@ -6,25 +6,22 @@
 
   .form-inputs
     .row
-      .col-sm-6
+      .col-md-6
         = f.input :name, label: "Nombre"
-      .col-sm-3
+      .col-sm-6.col-md-3
         = f.input :due_date, as: :string, input_html: { type: :date }, label: "Fecha de vencimiento"
-      .col-sm-3
+      .col-sm-6.col-md-3
         = f.association :category, collection: visible_categories, label: "Categoría", required: true
-    .row
-      .col-sm-12
-        = f.input :description
-    #addParticipants
-      %br
-      %h3
-        .uppercased-font{ style: "display: inline-block;" } Participantes
-        = link_to_add_nested f, :participating_users, "#participants", partial: "participating_user_fields", link_text: "Agregar participante" do
-          Agregar un participante
-          .fa.fa-plus-circle
+    = f.input :description
+    #addParticipants.mt-4
+      .d-flex.flex-wrap.align-items-center.justify-content-between.gap-2.mb-2
+        %h2.section-title.mb-0 Participantes
+        = link_to_add_nested f, :participating_users, "#participants", partial: "participating_user_fields", link_text: "Agregar participante", link_classes: "btn btn-outline-primary btn-sm" do
+          %i.fa-solid.fa-plus{ "aria-hidden" => "true" }
+          Agregar participante
       #participants
         = f.simple_fields_for :participating_users do |g|
           = render "participating_user_fields", form: g
         .participants-container
-    .form-actions
-      = f.button :submit, class: "btn btn-info"
+  .form-actions.mt-3
+    = f.button :submit, class: "btn btn-primary"

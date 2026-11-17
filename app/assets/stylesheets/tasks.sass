@@ -1,102 +1,121 @@
-.tasks
-	&.index-page
-		.card
-			border-radius: 10px
-			border: none
-			&.bg-gray
-				background-color: #cacaca
+.task-list
+	display: grid
+	gap: 1rem
+	margin: 0
 
-		.tasks-container
-			.task-container
-				background-color: white
-				margin-bottom: 25px
-				padding: 10px
-				border-radius: 10px
-				border-left: 8px solid gray
-				.task-info
-					display: inline-block
-					.task-title
-						font-weight: 600
-						.task-category
-							background-color: yellow
-							padding: 5px
-							font-size: small
-							border-radius: 10px
-							margin-left: 5px
+.task-card-head
+	display: flex
+	flex-wrap: wrap
+	align-items: center
+	gap: .5rem .75rem
 
-						.task-description
-							font-weight: 300
-							font-style: italic
+.task-card-title
+	margin: 0
+	font-size: 1.125rem
+	font-weight: 600
+	overflow-wrap: anywhere
+	a
+		color: inherit
+		text-decoration: none
+		&:hover, &:focus-visible
+			color: $accent
+			text-decoration: underline
 
-						.task-dates
-							font-size: small
+.task-category
+	background-color: rgba($accent, .12)
+	color: $accent
+	font-weight: 600
 
-				.task-interactions
-					float: right
-					margin-top: 11px
-					.task-participants
-						display: inline-block
-						.task-participant
-							display: inline-block
+.task-card-description
+	margin: .5rem 0 0
+	color: $secondary
 
-					.task-actions
-						display: inline-block
-						.dropdown
-							.fa-ellipsis-v
-								font-size: 34px
-								vertical-align: middle
-								margin-left: 10px
-								cursor: pointer
-								color: #5e676d
+.task-card-meta
+	display: flex
+	flex-wrap: wrap
+	gap: .25rem 1rem
+	margin: .75rem 0 0
+	font-size: .875rem
+	color: $secondary
+	overflow-wrap: anywhere
 
-				&.task-status--open
-					border-left-color: 8px solid green
-				&.task-status--close
-					border-left-color: 8px solid green
-	.task-participants
-		.task-participants-header
-			padding: 10px
-			background-color: #273b47
-			color: white
-			font-size: small
-			border-radius: 10px
-			margin-bottom: 10px
-		.task-participant
-			display: inline-block
-			margin-bottom: 15px
-	.notes-container
-		.no-notes
-			font-weight: bold
-			color: #cccccc
-			font-size: 50px
-			margin: 25px
-			text-align: center
-	.notes-container
-		.notes
-			max-height: 300px
-			overflow-y: auto
-			.note-element
-				padding-bottom: 10px
-				margin: 10px 0
-				.avatar
-					display: inline-block
-					vertical-align: top
-			.note
-				padding-left: 10px
-				padding-right: 10px
-				display: inline-block
-				width: 70%
-				width: -webkit-calc(100% - 55px)
-				width: -moz-calc(100% - 55px)
-				width: calc(100% - 55px)
-				.past-time
-					float: right
-					color: gray
-					font-weight: bold
-					font-size: 11px
-				.user
-					color: gray
-					font-weight: bold
-					font-size: smaller
-				.content
-					color: gray
+.task-card-foot
+	display: flex
+	align-items: center
+	justify-content: space-between
+	gap: 1rem
+	margin-top: 1rem
+
+.task-participants
+	display: flex
+	flex-wrap: wrap
+	.task-participant
+		margin-right: -.375rem
+		.user-avatar
+			box-shadow: 0 0 0 2px #fff
+
+// The responsible participant gets an accent ring; the detail page also names the role.
+.task-participant--responsable .user-avatar
+	box-shadow: 0 0 0 2px #fff, 0 0 0 4px $accent
+
+.participant-list
+	display: grid
+	gap: .75rem
+	.task-participant
+		display: flex
+		align-items: center
+		gap: .75rem
+
+.participant-email
+	flex: 1
+	min-width: 0
+	overflow-wrap: anywhere
+
+.participant-role
+	background-color: $gray-200
+	color: $body-color
+	font-weight: 500
+	.task-participant--responsable &
+		background-color: $accent
+		color: #fff
+
+.notes
+	display: grid
+	gap: 1rem
+	max-height: 24rem
+	overflow-y: auto
+
+// Hidden as soon as the list holds a note, including one just appended without reloading.
+.notes:has(.note-element) + .notes-empty
+	display: none
+
+.notes-empty
+	margin: 0
+	color: $secondary
+
+.note-element
+	display: flex
+	gap: .75rem
+
+.note
+	flex: 1
+	min-width: 0
+
+.note-header
+	display: flex
+	flex-wrap: wrap
+	justify-content: space-between
+	gap: .25rem 1rem
+	font-size: .8rem
+	color: $secondary
+
+.note-user
+	font-weight: 600
+	overflow-wrap: anywhere
+
+.note-body
+	margin: .25rem 0 0
+	padding: .625rem .875rem
+	background-color: $paper
+	border-radius: 0 .75rem .75rem .75rem
+	overflow-wrap: anywhere
