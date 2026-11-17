@@ -1,15 +1,13 @@
 -# The demo has no sign-in form: visitors enter with the button, which creates their temporary account.
 - if demo_mode?
-  %p.text-muted.text-center.mb-4
-    Un organizador de tareas: cada tarea tiene una categoría, una fecha de vencimiento, un creador y participantes,
-    y admite notas que aparecen sin recargar la página.
-  = button_to "Probar el demo", test_path, class: "btn btn-primary btn-lg", form: { data: { turbo: false } }
+  %p.entry-lead.text-muted
+    Tareas con categoría, fecha de vencimiento y participantes, y notas que aparecen sin recargar la página.
+  = button_to "Probar el demo", test_path, class: "btn btn-entry btn-lg w-100", form: { data: { turbo: false } }
 - else
-  %h2 Iniciar sesión
-  = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { data: { turbo: false }, class: "d-flex w-50 flex-column" }) do |f|
+  %h2.entry-heading Iniciar sesión
+  = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { data: { turbo: false } }) do |f|
     .form-inputs
-      = f.input :email, label: "Correo", required: true, autofocus: true, input_html: { autocomplete: "email" }, class: "form-control"
-      = f.input :password, label: "Contraseña", required: true, input_html: { autocomplete: "current-password" }, class: "form-control"
+      = f.input :email, label: "Correo", required: true, autofocus: true, input_html: { autocomplete: "email" }
+      = f.input :password, label: "Contraseña", required: true, input_html: { autocomplete: "current-password" }
       = f.input :remember_me, label: "Recordarme", as: :boolean if devise_mapping.rememberable?
-    .form-actions.align-self-center
-      = f.button :submit, "Entrar", class: "btn btn-outline-primary"
+    = f.button :submit, "Entrar", class: "btn btn-entry btn-lg w-100 mt-2"

@@ -1,0 +1,93 @@
+// The sign-in and account pages: a slate band (the navbar's color) behind a white card, centered on the screen.
+$entry-ink: #1f2f38
+$entry-slate: #273b47
+$entry-paper: #e9eef1
+$entry-accent: #2f6f8f
+
+body.entry-page
+	min-height: 100vh
+	display: flex
+	flex-direction: column
+	background-color: $entry-paper
+	color: $entry-ink
+
+.entry
+	position: relative
+	flex: 1
+	display: flex
+	flex-direction: column
+	align-items: center
+	justify-content: center
+	padding: 3rem 1rem
+	&::before
+		content: ""
+		position: absolute
+		inset: 0 0 45% 0
+		background-color: $entry-slate
+
+.entry-card
+	position: relative
+	width: 100%
+	max-width: 26rem
+	padding: 2.25rem 2rem 2rem
+	background-color: #fff
+	border-radius: 1rem
+	box-shadow: 0 1px 2px rgba($entry-ink, .08), 0 18px 48px rgba($entry-ink, .18)
+	// The flash partial opens each message with a line break; the card's own spacing is enough.
+	> br
+		display: none
+
+.entry-brand
+	position: relative
+	display: flex
+	align-items: center
+	gap: .875rem
+	margin-bottom: 2rem
+	color: #fff
+
+.entry-mark
+	display: inline-grid
+	place-items: center
+	width: 3rem
+	height: 3rem
+	border-radius: .875rem
+	background-color: $entry-accent
+	color: #fff
+	font-size: 1.3rem
+
+.entry-title
+	margin: 0
+	font-size: 2.25rem
+	font-weight: 700
+	letter-spacing: -.02em
+	color: inherit
+
+// Simple Form wraps each field in .form-group, which Bootstrap 5 no longer spaces.
+.entry-card .form-group
+	margin-bottom: 1rem
+	label
+		margin-bottom: .375rem
+		font-weight: 500
+
+.entry-heading
+	margin-bottom: 1rem
+	font-size: 1.125rem
+	font-weight: 600
+
+.entry-lead
+	margin-bottom: 1.75rem
+	font-size: 1.05rem
+	line-height: 1.55
+
+.btn-entry
+	--bs-btn-color: #fff
+	--bs-btn-bg: #{$entry-accent}
+	--bs-btn-border-color: #{$entry-accent}
+	--bs-btn-hover-color: #fff
+	--bs-btn-hover-bg: #275d78
+	--bs-btn-hover-border-color: #275d78
+	--bs-btn-active-color: #fff
+	--bs-btn-active-bg: #214f66
+	--bs-btn-active-border-color: #214f66
+	--bs-btn-focus-shadow-rgb: 47, 111, 143
+	font-weight: 600

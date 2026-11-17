@@ -1,10 +1,10 @@
 require "test_helper"
 
-# Guests land on the sign-in page at the root. In demo mode it is only the demo entry; a private installation shows
-# only the form.
+# Guests land on the sign-in page at the root: the app's name on a centered card, like the entry to an intranet. In demo
+# mode the card holds only the demo entry; a private installation shows only the form.
 class SignInPageTest < ActionDispatch::IntegrationTest
-  LINE = "Un organizador de tareas: cada tarea tiene una categoría, una fecha de vencimiento, un creador y " \
-         "participantes, y admite notas que aparecen sin recargar la página.".freeze
+  LINE = "Tareas con categoría, fecha de vencimiento y participantes, y notas que aparecen sin recargar la " \
+         "página.".freeze
 
   test "in demo mode the sign-in page shows the notice, one line and the demo button, with no form" do
     [root_path, new_user_session_path].each do |path|
@@ -19,7 +19,10 @@ class SignInPageTest < ActionDispatch::IntegrationTest
       assert_select "form", count: 1
       assert_select "form[action=?][method=post] button", "/test", text: "Probar el demo"
       assert_select "input[name='user[email]'], input[name='user[password]']", count: 0
-      assert_select "h1, h2, .badge", count: 0
+      assert_select ".entry h1", text: "Organizador"
+      assert_select ".entry-card p.text-muted", text: LINE
+      assert_select ".entry-card form[action=?] button", "/test"
+      assert_select "h2, .badge", count: 0
       %w[Platzi Ruby Rails PostgreSQL Bootstrap Devise CanCanCan].each do |word|
         assert_not_includes response.body, word
       end
@@ -32,7 +35,9 @@ class SignInPageTest < ActionDispatch::IntegrationTest
         get path
 
         assert_response :success
-        assert_select "h2", text: "Iniciar sesión"
+        assert_select ".entry h1", text: "Organizador"
+        assert_select ".entry-card h2", text: "Iniciar sesión"
+        assert_select ".entry-card form[action=?]", user_session_path
         assert_select "form[action=?]", user_session_path, count: 1
         assert_select "form", count: 1
         assert_select "label[for=user_email]", text: /Correo/

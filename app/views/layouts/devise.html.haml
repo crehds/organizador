@@ -2,18 +2,22 @@
 %html{ lang: "es" }
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %title Tasker
+    %meta{ name: "viewport", content: "width=device-width, initial-scale=1" }
+    %title Organizador
     = csrf_meta_tags
     = csp_meta_tag
     = javascript_include_tag "application", "data-turbolinks-track": "reload"
     = stylesheet_link_tag "application", media: "all", "data-turbolinks-track": "reload"
-  %body
+  %body.entry-page
     = render "layouts/demo_banner" if demo_mode?
-    .container.mt-5
-      .main-flash-messages
+    -# The app's name heads a slate band and the content sits on a card across its edge, like the door to an intranet.
+    %main.entry
+      .entry-brand
+        %span.entry-mark{ "aria-hidden" => "true" }
+          %i.fa-solid.fa-list-check
+        %h1.entry-title Organizador
+      .entry-card
         = render "layouts/messages"
-    .fullscreen
-      .d-flex.flex-column.align-items-center
         = yield
     .container
       = turbo_frame_tag "modal"
